@@ -126,15 +126,6 @@ UZ Core профили: Элементы, отмеченные как Must Suppo
 
 Ответ: HTTP 201 Created с Location header и созданным ресурсом.
 
-#### Условное создание
-
-Используйте заголовок `If-None-Exist` для предотвращения дублирования:
-
-```
-POST /Organization
-If-None-Exist: identifier=https://dhp.uz/fhir/core/sid/org/uz/soliq|123456789
-```
-
 ### Read (Чтение)
 
 - HTTP метод: GET
@@ -148,11 +139,20 @@ If-None-Exist: identifier=https://dhp.uz/fhir/core/sid/org/uz/soliq|123456789
 
 - HTTP метод: PUT
 - Endpoint: `/Organization/[id]`
-- Заголовки: `Content-Type: application/fhir+json`
+- Заголовки:
+  - `Content-Type: application/fhir+json`
+  - `If-Match: W/"[versionId]"` (обязательно для предотвращения конфликтов)
 
-Полное обновление организации. Необходимо отправить весь ресурс, включая элемент `id`.
+Полное обновление организации. Необходимо отправить весь ресурс, включая элемент `id`. Заголовок `If-Match` обязателен и должен содержать версию ресурса из элемента `meta.versionId`, чтобы предотвратить конфликты при одновременном редактировании (optimistic locking).
 
-Пример:
+Пример запроса:
+```
+PUT /Organization/existing-id
+If-Match: W/"2"
+Content-Type: application/fhir+json
+```
+
+Пример тела запроса:
 ```json
 {
   "resourceType": "Organization",
@@ -168,20 +168,12 @@ If-None-Exist: identifier=https://dhp.uz/fhir/core/sid/org/uz/soliq|123456789
 
 Ответ: HTTP 200 OK с обновлённым ресурсом.
 
-#### Условное обновление
-
-Обновление по бизнес-идентификатору:
-
-```
-PUT /Organization?identifier=https://dhp.uz/fhir/core/sid/org/uz/soliq|123456789
-```
-
 ### Delete (Удаление)
 
 - HTTP метод: DELETE
 - Endpoint: `/Organization/[id]`
 
-Удаление организации. Обратите внимание на ограничения целостности данных (например, организацию нельзя удалить, если на неё ссылаются другие ресурсы).
+Удаление организации.
 
 Ответ: HTTP 204 No Content или HTTP 404 Not Found.
 
