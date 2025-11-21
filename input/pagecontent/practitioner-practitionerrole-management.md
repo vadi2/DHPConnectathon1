@@ -72,8 +72,9 @@ When a practitioner's gender is set to "other", the profile requires the `gender
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "https://dhp.uz/fhir/core/CodeSystem/gender-other",
-              "code": "transgender-male"
+              "system": "https://terminology.dhp.uz/fhir/core/CodeSystem/gender-other-cs",
+              "code": "regis0007.00005",
+              "display": "Changed gender to male"
             }
           ]
         }

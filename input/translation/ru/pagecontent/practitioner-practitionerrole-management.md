@@ -72,8 +72,9 @@ UZ Core профили: Элементы, отмеченные как Must Suppo
         "valueCodeableConcept": {
           "coding": [
             {
-              "system": "https://dhp.uz/fhir/core/CodeSystem/gender-other",
-              "code": "transgender-male"
+              "system": "https://terminology.dhp.uz/fhir/core/CodeSystem/gender-other-cs",
+              "code": "regis0007.00005",
+              "display": "Сменил пол на мужчину"
             }
           ]
         }
