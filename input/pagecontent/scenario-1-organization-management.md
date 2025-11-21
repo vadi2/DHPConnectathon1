@@ -9,6 +9,8 @@
 - Базовый URL: `https://playground.dhp.uz/fhir`
 - Профиль: [uz-core-organization](https://dhp.uz/fhir/core/en/StructureDefinition-uz-core-organization.html)
 
+**Обратная связь:** Поделитесь своим опытом, проблемами и успехами в [документе коннектатона](https://docs.google.com/document/d/1PdQ8zBI9xkISP3tAqIK8-TGMql3kVVZ4UNoHVYqCy4Y/edit?usp=sharing).
+
 ## Профиль uz-core-organization
 
 **Примечание**: В настоящее время валидация на сервере отключена, но клиентские приложения должны следовать правилам профиля для обеспечения совместимости и качества данных.
@@ -628,6 +630,7 @@ import (
 
 type Organization struct {
     ResourceType string                 `json:"resourceType"`
+    ID           string                 `json:"id,omitempty"`
     Meta         *Meta                  `json:"meta,omitempty"`
     Identifier   []Identifier           `json:"identifier,omitempty"`
     Active       bool                   `json:"active"`
@@ -714,7 +717,7 @@ func main() {
         body, _ := io.ReadAll(resp.Body)
         var createdOrg Organization
         json.Unmarshal(body, &amp;createdOrg)
-        fmt.Printf("Организация создана с ID: %s\n", createdOrg.Name)
+        fmt.Printf("Организация создана с ID: %s\n", createdOrg.ID)
     } else {
         fmt.Printf("Ошибка: %d\n", resp.StatusCode)
     }
