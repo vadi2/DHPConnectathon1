@@ -506,19 +506,24 @@ Use `Bundle.link` with `relation="next"` to get the next page.
 
 ### Typical integration scenario
 
-1. **Search for practitioners** in your organization:
+1. **Find your organization** by soliq (tax) ID:
+   ```
+   GET /Organization?identifier=https://dpm.uz/identifier/soliq|123456789
+   ```
+
+2. **Search for practitioners** in your organization:
    ```
    GET /PractitionerRole?organization=Organization/your-org-id
    ```
 
-2. **Get practitioner details** for each role:
+3. **Get practitioner details** for each role:
    ```
    GET /Practitioner/practitioner-id
    ```
 
-3. **Retrieve qualifications** from the Practitioner resource
+4. **Retrieve qualifications** from the Practitioner resource
 
-4. **Get additional role details** if needed:
+5. **Get additional role details** if needed:
    ```
    GET /PractitionerRole/role-id
    ```
