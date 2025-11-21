@@ -382,51 +382,54 @@ GET /Organization?partof=Organization/parent-org-id
   <div class="tab-content">
     <div class="tab-pane active" id="python">
 <pre><code class="language-python">import requests
-import json
+from fhir.resources.organization import Organization
+from fhir.resources.identifier import Identifier
+from fhir.resources.codeableconcept import CodeableConcept
+from fhir.resources.coding import Coding
+from fhir.resources.meta import Meta
 
 # FHIR сервер базовый URL
 base_url = "https://playground.dhp.uz/fhir"
 
-# Данные новой организации
-organization = {
-    "resourceType": "Organization",
-    "meta": {
-        "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization"]
-    },
-    "identifier": [
-        {
-            "system": "https://dhp.uz/fhir/core/sid/org/uz/soliq",
-            "type": {
-                "coding": [
-                    {
-                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                        "code": "TAX"
-                    }
+# Создание новой организации с использованием fhir.resources
+organization = Organization(
+    meta=Meta(
+        profile=["https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization"]
+    ),
+    identifier=[
+        Identifier(
+            system="https://dhp.uz/fhir/core/sid/org/uz/soliq",
+            type=CodeableConcept(
+                coding=[
+                    Coding(
+                        system="http://terminology.hl7.org/CodeSystem/v2-0203",
+                        code="TAX"
+                    )
                 ]
-            },
-            "value": "123456789"
-        }
+            ),
+            value="123456789"
+        )
     ],
-    "active": True,
-    "type": [
-        {
-            "coding": [
-                {
-                    "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-                    "code": "prov",
-                    "display": "Healthcare Provider"
-                }
+    active=True,
+    type=[
+        CodeableConcept(
+            coding=[
+                Coding(
+                    system="http://terminology.hl7.org/CodeSystem/organization-type",
+                    code="prov",
+                    display="Healthcare Provider"
+                )
             ]
-        }
+        )
     ],
-    "name": "Yangi tibbiyot muassasasi"
-}
+    name="Yangi tibbiyot muassasasi"
+)
 
 # Отправка POST запроса
 response = requests.post(
     f"{base_url}/Organization",
     headers={"Content-Type": "application/fhir+json"},
-    data=json.dumps(organization)
+    data=organization.json()
 )
 
 if response.status_code == 201:
