@@ -188,6 +188,8 @@ Content-Type: application/fhir+json
 
 ### Параметры поиска
 
+Все поддерживаемые параметры поиска можно найти в capability statement по адресу [DHPCapabilityStatement](https://dhp.uz/fhir/core/en/CapabilityStatement-DHPCapabilityStatement.html) или через эндпоинт [/metadata](https://playground.dhp.uz/fhir/metadata).
+
 | Параметр | Тип | Описание | Пример |
 |----------|-----|----------|--------|
 | `_id` | token | Поиск по ID | `?_id=123` |

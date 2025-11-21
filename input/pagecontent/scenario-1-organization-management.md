@@ -188,6 +188,8 @@ Response: HTTP 200 OK with OperationOutcome on successful deletion. When attempt
 
 ### Search parameters
 
+All supported search parameters can be found in the capability statement at [DHPCapabilityStatement](https://dhp.uz/fhir/core/en/CapabilityStatement-DHPCapabilityStatement.html) or by querying the [/metadata](https://playground.dhp.uz/fhir/metadata) endpoint.
+
 | Parameter | Type | Description | Example |
 |----------|-----|----------|--------|
 | `_id` | token | Search by ID | `?_id=123` |
