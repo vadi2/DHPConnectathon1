@@ -15,6 +15,49 @@
 
 - **name** (1..1): Название организации на узбекском языке
 
+#### Переводы названия
+
+Для добавления переводов названия на русский и каракалпакский языки используйте стандартное расширение [translation](http://hl7.org/fhir/R5/extension-translation.html). Расширение применяется к элементу `_name`:
+
+```json
+"name": "Toshkent viloyati yuqumli kasalliklar shifoxonasi",
+"_name": {
+  "extension": [
+    {
+      "extension": [
+        {
+          "url": "lang",
+          "valueCode": "ru"
+        },
+        {
+          "url": "content",
+          "valueString": "Ташкентская областная инфекционная больница"
+        }
+      ],
+      "url": "http://hl7.org/fhir/StructureDefinition/translation"
+    },
+    {
+      "extension": [
+        {
+          "url": "lang",
+          "valueCode": "kaa"
+        },
+        {
+          "url": "content",
+          "valueString": "Tashkent wálayat juqpalı kesellikler emlewxanası"
+        }
+      ],
+      "url": "http://hl7.org/fhir/StructureDefinition/translation"
+    }
+  ]
+}
+```
+
+Коды языков:
+- `uz` - узбекский (основной язык для поля `name`)
+- `ru` - русский
+- `kaa` - каракалпакский
+
 ### Must-Support элементы
 
 Требование "Must Support" применяется в двух контекстах в рамках Цифровой платформы здравоохранения Узбекистана:
@@ -308,10 +351,10 @@ GET /Organization?partof=Organization/parent-org-id
 
 ## Полезные ссылки
 
-- [FHIR Organization Resource](http://hl7.org/fhir/R4/organization.html)
+- [FHIR Organization Resource](http://hl7.org/fhir/R5/organization.html)
 - [uz-core-organization Profile](https://dhp.uz/fhir/core/en/StructureDefinition-uz-core-organization.html)
-- [FHIR RESTful API](http://hl7.org/fhir/R4/http.html)
-- [FHIR Search](http://hl7.org/fhir/R4/search.html)
+- [FHIR RESTful API](http://hl7.org/fhir/R5/http.html)
+- [FHIR Search](http://hl7.org/fhir/R5/search.html)
 
 ---
 
@@ -457,10 +500,10 @@ fetch(`${baseUrl}/Organization`, {
     <div class="tab-pane" id="java">
 <pre><code class="language-java">import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.hl7.fhir.r4.model.*;
+import org.hl7.fhir.r5.model.*;
 
 // Создание FHIR контекста и клиента
-FhirContext ctx = FhirContext.forR4();
+FhirContext ctx = FhirContext.forR5();
 IGenericClient client = ctx.newRestfulGenericClient("https://playground.dhp.uz/fhir");
 
 // Создание организации
