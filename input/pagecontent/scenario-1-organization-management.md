@@ -17,9 +17,17 @@
 
 ### Must-Support элементы
 
+Требование "Must Support" применяется в двух контекстах в рамках Цифровой платформы здравоохранения Узбекистана:
+
+**UZ Core профили:** Элементы, отмеченные как Must Support, должны быть заполнены при обмене данными между системами, работающими в Узбекистане.
+
+Когда данные не могут быть заполнены, потому что они недоступны в исходной системе, элемент может остаться пустым — при условии, что правила кардинальности это позволяют. Однако, когда требования кардинальности обязывают включение, системы должны использовать расширение Data Absent Reason, а не оставлять элемент пустым.
+
+#### Элементы профиля
+
 - **identifier**: Идентификаторы организации
-  - **taxId**: Налоговый идентификатор (`system`: `https://soliq.uz`, `type.coding.code`: `TAX`)
-  - **argosId**: Идентификатор ARGOS (`system`: `https://hrm.argos.uz`)
+  - **taxId**: Налоговый идентификатор (`system`: `https://dhp.uz/fhir/core/sid/org/uz/soliq`, `type.coding.code`: `TAX`)
+  - **argosId**: Идентификатор ARGOS (`system`: `https://dhp.uz/fhir/core/sid/org/uz/argos`)
 - **active**: Статус активности
 - **type**: Классификации организации (nomenclatureGroup, organizationalServiceGroup, organizationalStructure, organizationType, specialization, subordinationGroup, withoutLegalStatus)
 - **partOf**: Ссылка на родительскую организацию
@@ -43,7 +51,7 @@
   },
   "identifier": [
     {
-      "system": "https://soliq.uz",
+      "system": "https://dhp.uz/fhir/core/sid/org/uz/soliq",
       "type": {
         "coding": [
           {
@@ -79,7 +87,7 @@
 
 ```
 POST /Organization
-If-None-Exist: identifier=https://soliq.uz|123456789
+If-None-Exist: identifier=https://dhp.uz/fhir/core/sid/org/uz/soliq|123456789
 ```
 
 ### Read (Чтение)
@@ -120,7 +128,7 @@ If-None-Exist: identifier=https://soliq.uz|123456789
 Обновление по бизнес-идентификатору:
 
 ```
-PUT /Organization?identifier=https://soliq.uz|123456789
+PUT /Organization?identifier=https://dhp.uz/fhir/core/sid/org/uz/soliq|123456789
 ```
 
 ### Delete (Удаление)
@@ -142,7 +150,7 @@ PUT /Organization?identifier=https://soliq.uz|123456789
 | Параметр | Тип | Описание | Пример |
 |----------|-----|----------|--------|
 | `_id` | token | Поиск по ID | `?_id=123` |
-| `identifier` | token | Поиск по идентификатору | `?identifier=https://soliq.uz\|123456789` |
+| `identifier` | token | Поиск по идентификатору | `?identifier=https://dhp.uz/fhir/core/sid/org/uz/soliq\|123456789` |
 | `name` | string | Поиск по названию (частичное совпадение) | `?name=Fergana` |
 | `name:exact` | string | Точное совпадение имени | `?name:exact=Fergana` |
 | `type` | token | Поиск по типу организации | `?type=prov` |
@@ -344,7 +352,7 @@ organization = {
     },
     "identifier": [
         {
-            "system": "https://soliq.uz",
+            "system": "https://dhp.uz/fhir/core/sid/org/uz/soliq",
             "type": {
                 "coding": [
                     {
@@ -397,7 +405,7 @@ const organization = {
   },
   identifier: [
     {
-      system: "https://soliq.uz",
+      system: "https://dhp.uz/fhir/core/sid/org/uz/soliq",
       type: {
         coding: [
           {
@@ -464,7 +472,7 @@ organization.getMeta()
 
 // Добавление идентификатора
 Identifier taxId = organization.addIdentifier();
-taxId.setSystem("https://soliq.uz");
+taxId.setSystem("https://dhp.uz/fhir/core/sid/org/uz/soliq");
 taxId.setValue("123456789");
 CodeableConcept taxType = new CodeableConcept();
 taxType.addCoding()
@@ -506,7 +514,7 @@ System.out.println("Организация создана с ID: " + id.getIdPar
   },
   "identifier": [
     {
-      "system": "https://soliq.uz",
+      "system": "https://dhp.uz/fhir/core/sid/org/uz/soliq",
       "type": {
         "coding": [
           {
