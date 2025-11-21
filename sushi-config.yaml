@@ -64,6 +64,14 @@ dependencies:
 parameters:
   excludettl: true
   excludexml: true
+
+  # multi-lingual support
+  i18n-default-lang: en
+  i18n-lang:
+    - ru
+  translation-sources:
+    - input/translation/ru
+
 #   validation: [allow-any-extensions, no-broken-links]
 #
 # ╭────────────────────────────────────────────menu.xml────────────────────────────────────────────╮
@@ -78,13 +86,6 @@ menu:
   Home: index.html
   Artifacts: artifacts.html
   Scenario 1 - Organization Management: scenario-1-organization-management.html
-
-  # multi-lingual support
-  i18n-default-lang: en
-  i18n-lang:
-    - ru
-  translation-sources:
-    - input/translation/ru
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
 # │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │
