@@ -307,4 +307,232 @@ GET /Organization?partof=Organization/parent-org-id
 
 ---
 
-См. также примеры кода для различных языков программирования.
+## Примеры кода
+
+{% include code-tabs-style.html %}
+
+Ниже представлены примеры создания новой организации на различных языках программирования:
+
+<div class="code-tabs">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+      <a href="#python" data-toggle="tab">Python</a>
+    </li>
+    <li>
+      <a href="#javascript" data-toggle="tab">JavaScript</a>
+    </li>
+    <li>
+      <a href="#java" data-toggle="tab">Java</a>
+    </li>
+    <li>
+      <a href="#curl" data-toggle="tab">cURL</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="python">
+<pre><code class="language-python">import requests
+import json
+
+# FHIR сервер базовый URL
+base_url = "https://playground.dhp.uz/fhir"
+
+# Данные новой организации
+organization = {
+    "resourceType": "Organization",
+    "meta": {
+        "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization"]
+    },
+    "identifier": [
+        {
+            "system": "https://soliq.uz",
+            "type": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "code": "TAX"
+                    }
+                ]
+            },
+            "value": "123456789"
+        }
+    ],
+    "active": True,
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                    "code": "prov",
+                    "display": "Healthcare Provider"
+                }
+            ]
+        }
+    ],
+    "name": "Yangi tibbiyot muassasasi"
+}
+
+# Отправка POST запроса
+response = requests.post(
+    f"{base_url}/Organization",
+    headers={"Content-Type": "application/fhir+json"},
+    data=json.dumps(organization)
+)
+
+if response.status_code == 201:
+    created_org = response.json()
+    print(f"Организация создана с ID: {created_org['id']}")
+else:
+    print(f"Ошибка: {response.status_code}")
+    print(response.text)
+</code></pre>
+    </div>
+    <div class="tab-pane" id="javascript">
+<pre><code class="language-javascript">// Используя fetch API
+const baseUrl = "https://playground.dhp.uz/fhir";
+
+const organization = {
+  resourceType: "Organization",
+  meta: {
+    profile: ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization"]
+  },
+  identifier: [
+    {
+      system: "https://soliq.uz",
+      type: {
+        coding: [
+          {
+            system: "http://terminology.hl7.org/CodeSystem/v2-0203",
+            code: "TAX"
+          }
+        ]
+      },
+      value: "123456789"
+    }
+  ],
+  active: true,
+  type: [
+    {
+      coding: [
+        {
+          system: "http://terminology.hl7.org/CodeSystem/organization-type",
+          code: "prov",
+          display: "Healthcare Provider"
+        }
+      ]
+    }
+  ],
+  name: "Yangi tibbiyot muassasasi"
+};
+
+// Создание организации
+fetch(`${baseUrl}/Organization`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/fhir+json'
+  },
+  body: JSON.stringify(organization)
+})
+.then(response =&gt; {
+  if (response.status === 201) {
+    return response.json();
+  }
+  throw new Error(`Ошибка: ${response.status}`);
+})
+.then(data =&gt; {
+  console.log(`Организация создана с ID: ${data.id}`);
+})
+.catch(error =&gt; {
+  console.error('Ошибка:', error);
+});
+</code></pre>
+    </div>
+    <div class="tab-pane" id="java">
+<pre><code class="language-java">import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import org.hl7.fhir.r4.model.*;
+
+// Создание FHIR контекста и клиента
+FhirContext ctx = FhirContext.forR4();
+IGenericClient client = ctx.newRestfulGenericClient("https://playground.dhp.uz/fhir");
+
+// Создание организации
+Organization organization = new Organization();
+
+// Установка профиля
+organization.getMeta()
+    .addProfile("https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization");
+
+// Добавление идентификатора
+Identifier taxId = organization.addIdentifier();
+taxId.setSystem("https://soliq.uz");
+taxId.setValue("123456789");
+CodeableConcept taxType = new CodeableConcept();
+taxType.addCoding()
+    .setSystem("http://terminology.hl7.org/CodeSystem/v2-0203")
+    .setCode("TAX");
+taxId.setType(taxType);
+
+// Установка статуса
+organization.setActive(true);
+
+// Добавление типа
+CodeableConcept orgType = new CodeableConcept();
+orgType.addCoding()
+    .setSystem("http://terminology.hl7.org/CodeSystem/organization-type")
+    .setCode("prov")
+    .setDisplay("Healthcare Provider");
+organization.addType(orgType);
+
+// Установка названия
+organization.setName("Yangi tibbiyot muassasasi");
+
+// Создание на сервере
+MethodOutcome outcome = client.create()
+    .resource(organization)
+    .execute();
+
+// Получение ID созданной организации
+IdType id = (IdType) outcome.getId();
+System.out.println("Организация создана с ID: " + id.getIdPart());
+</code></pre>
+    </div>
+    <div class="tab-pane" id="curl">
+<pre><code class="language-bash">curl -X POST "https://playground.dhp.uz/fhir/Organization" \
+  -H "Content-Type: application/fhir+json" \
+  -d '{
+  "resourceType": "Organization",
+  "meta": {
+    "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization"]
+  },
+  "identifier": [
+    {
+      "system": "https://soliq.uz",
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "TAX"
+          }
+        ]
+      },
+      "value": "123456789"
+    }
+  ],
+  "active": true,
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+          "code": "prov",
+          "display": "Healthcare Provider"
+        }
+      ]
+    }
+  ],
+  "name": "Yangi tibbiyot muassasasi"
+}'
+</code></pre>
+    </div>
+  </div>
+</div>
