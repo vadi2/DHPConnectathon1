@@ -1,4 +1,4 @@
-# Scenario 1: Organization Management
+# Scenario 1: Organization management
 
 ## Overview
 
@@ -11,15 +11,15 @@ Goal: Retrieve existing organizations and departments, integrate them into softw
 
 **Feedback:** Share your experience, issues and successes in the [connectathon document](https://docs.google.com/document/d/1PdQ8zBI9xkISP3tAqIK8-TGMql3kVVZ4UNoHVYqCy4Y/edit?usp=sharing).
 
-## uz-core-organization Profile
+## uz-core-organization profile
 
 **Note**: Validation is currently disabled on the server, but client applications should follow the profile rules to ensure compatibility and data quality.
 
-### Required Elements
+### Required elements
 
 - **name** (1..1): Organization name in Uzbek language
 
-#### Name Translations
+#### Name translations
 
 To add translations of the name in Russian and Karakalpak languages, use the standard [translation](http://hl7.org/fhir/R5/extension-translation.html) extension. The extension is applied to the `_name` element:
 
@@ -59,13 +59,13 @@ Language codes:
 - `ru` - Russian
 - `kaa` - Karakalpak
 
-### Must-Support Elements
+### Must-support elements
 
 UZ Core profiles: Elements marked as Must Support must be populated when exchanging data between systems operating in Uzbekistan.
 
 When data cannot be populated because it is unavailable in the source system, the element may be left empty - provided that cardinality rules allow it. However, when cardinality requirements mandate inclusion, systems must use the Data Absent Reason extension rather than leaving the element empty.
 
-#### Profile Elements
+#### Profile elements
 
 - **identifier**: Organization identifiers
   - **taxId**: Tax identifier (`system`: `https://dhp.uz/fhir/core/sid/org/uz/soliq`)
@@ -83,7 +83,7 @@ When data cannot be populated because it is unavailable in the source system, th
   Valid codes for each dimension can be found in the corresponding ValueSets bound to each slice in the [uz-core-organization profile](https://dhp.uz/fhir/core/en/StructureDefinition-uz-core-organization.html).
 - **partOf**: Reference to parent organization
 
-## CRUD Operations
+## CRUD operations
 
 ### Create
 
@@ -186,7 +186,7 @@ Response: HTTP 200 OK with OperationOutcome on successful deletion. When attempt
 - HTTP method: GET
 - Endpoint: `/Organization?[parameters]`
 
-### Search Parameters
+### Search parameters
 
 | Parameter | Type | Description | Example |
 |----------|-----|----------|--------|
@@ -198,7 +198,7 @@ Response: HTTP 200 OK with OperationOutcome on successful deletion. When attempt
 | `active` | token | Filter by status | `?active=true` |
 | `partof` | reference | Search for departments | `?partof=Organization/parent-id` |
 
-### Modifiers and Prefixes
+### Modifiers and prefixes
 
 Combining parameters (logical AND):
 ```
@@ -237,7 +237,7 @@ Use `Bundle.link` with `relation="next"` to get the next page.
 
 **Known issue**: The `Bundle.total` field may return `0` even when results are present. To count organizations on the current page, filter `Bundle.entry` by `resourceType == "Organization"` (the response may contain `OperationOutcome` resources).
 
-## Organization Hierarchy
+## Organization hierarchy
 
 Departments are linked to parent organizations through the `partOf` element:
 
@@ -267,9 +267,9 @@ Get all departments of an organization:
 GET /Organization?partof=Organization/parent-org-id
 ```
 
-## Error Handling
+## Error handling
 
-### Response Codes
+### Response codes
 
 | Code | Description |
 |-----|----------|
@@ -299,7 +299,7 @@ On errors, the server returns an OperationOutcome:
 }
 ```
 
-## Example Organizations in the System
+## Example organizations in the system
 
 Organization types:
 - **prov** (Healthcare Provider): Medical institutions
@@ -314,7 +314,7 @@ Examples of departments (type=dept):
 - Эндоскопия кабинети (Endoscopy Cabinet)
 - Бактериология лабораторияси (Bacteriology Laboratory)
 
-## Useful Links
+## Useful links
 
 - [FHIR Organization Resource](http://hl7.org/fhir/R5/organization.html)
 - [uz-core-organization Profile](https://dhp.uz/fhir/core/en/StructureDefinition-uz-core-organization.html)
@@ -323,7 +323,7 @@ Examples of departments (type=dept):
 
 ---
 
-## Code Examples
+## Code examples
 
 {% include code-tabs-style.html %}
 
