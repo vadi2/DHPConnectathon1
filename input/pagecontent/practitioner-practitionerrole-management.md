@@ -141,6 +141,7 @@ PractitionerRole links practitioners to organizations where they work:
 {
   "resourceType": "PractitionerRole",
   "id": "example",
+  "language": "uz",
   "active": true,
   "practitioner": {
     "reference": "Practitioner/123",
@@ -154,9 +155,9 @@ PractitionerRole links practitioners to organizations where they work:
     {
       "coding": [
         {
-          "system": "http://snomed.info/sct",
-          "code": "309343006",
-          "display": "Physician"
+          "system": "https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs",
+          "code": "2211.1",
+          "display": "General practitioner"
         }
       ]
     }
@@ -165,9 +166,9 @@ PractitionerRole links practitioners to organizations where they work:
     {
       "coding": [
         {
-          "system": "http://snomed.info/sct",
-          "code": "394814009",
-          "display": "General practice"
+          "system": "https://terminology.dhp.uz/fhir/core/CodeSystem/profession-specialization-cs",
+          "code": "419772000",
+          "display": "Family practice"
         }
       ]
     }
@@ -192,6 +193,7 @@ Minimal example:
   "meta": {
     "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-practitioner"]
   },
+  "language": "uz",
   "identifier": [
     {
       "use": "official",
@@ -249,6 +251,7 @@ Example:
   "meta": {
     "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-practitionerrole"]
   },
+  "language": "uz",
   "active": true,
   "practitioner": {
     "reference": "Practitioner/123",
@@ -262,9 +265,9 @@ Example:
     {
       "coding": [
         {
-          "system": "http://snomed.info/sct",
-          "code": "309343006",
-          "display": "Physician"
+          "system": "https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs",
+          "code": "2211.1",
+          "display": "General practitioner"
         }
       ]
     }
@@ -273,9 +276,9 @@ Example:
     {
       "coding": [
         {
-          "system": "http://snomed.info/sct",
-          "code": "394814009",
-          "display": "General practice"
+          "system": "https://terminology.dhp.uz/fhir/core/CodeSystem/profession-specialization-cs",
+          "code": "419772000",
+          "display": "Family practice"
         }
       ]
     }
@@ -328,6 +331,7 @@ Request body example:
   "meta": {
     "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-practitioner"]
   },
+  "language": "uz",
   "identifier": [...],
   "active": true,
   "name": [
@@ -451,7 +455,7 @@ GET /Practitioner?qualification-code=http://terminology.hl7.org/CodeSystem/v2-03
 
 **Find active specialists of a specific type:**
 ```
-GET /PractitionerRole?specialty=http://snomed.info/sct|394814009&active=true
+GET /PractitionerRole?specialty=https://terminology.dhp.uz/fhir/core/CodeSystem/profession-specialization-cs|419772000&active=true
 ```
 
 ### Modifiers and prefixes
@@ -621,6 +625,7 @@ Below are examples of creating a new practitioner in various programming languag
   "meta": {
     "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-practitioner"]
   },
+  "language": "uz",
   "identifier": [
     {
       "use": "official",
@@ -678,6 +683,7 @@ practitioner = Practitioner(
     meta=Meta(
         profile=["https://dhp.uz/fhir/core/StructureDefinition/uz-core-practitioner"]
     ),
+    language="uz",
     identifier=[
         Identifier(
             use="official",
@@ -741,6 +747,7 @@ const practitioner = {
   meta: {
     profile: ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-practitioner"]
   },
+  language: "uz",
   identifier: [
     {
       use: "official",
@@ -818,6 +825,9 @@ Practitioner practitioner = new Practitioner();
 practitioner.getMeta()
     .addProfile("https://dhp.uz/fhir/core/StructureDefinition/uz-core-practitioner");
 
+// Setting language
+practitioner.setLanguage("uz");
+
 // Adding identifier
 Identifier nationalId = practitioner.addIdentifier();
 nationalId.setUse(Identifier.IdentifierUse.OFFICIAL);
@@ -876,6 +886,7 @@ var practitioner = new Practitioner
     {
         Profile = new[] { "https://dhp.uz/fhir/core/StructureDefinition/uz-core-practitioner" }
     },
+    Language = "uz",
     Identifier = new List&lt;Identifier&gt;
     {
         new Identifier
@@ -947,6 +958,7 @@ type Practitioner struct {
     ResourceType  string                        `json:"resourceType"`
     ID            string                        `json:"id,omitempty"`
     Meta          *Meta                         `json:"meta,omitempty"`
+    Language      string                        `json:"language,omitempty"`
     Identifier    []Identifier                  `json:"identifier,omitempty"`
     Active        bool                          `json:"active"`
     Name          []HumanName                   `json:"name,omitempty"`
@@ -994,6 +1006,7 @@ func main() {
         Meta: &amp;Meta{
             Profile: []string{"https://dhp.uz/fhir/core/StructureDefinition/uz-core-practitioner"},
         },
+        Language: "uz",
         Identifier: []Identifier{
             {
                 Use:    "official",
