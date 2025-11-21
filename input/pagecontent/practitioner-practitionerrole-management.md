@@ -49,8 +49,8 @@ When data cannot be populated because it is unavailable in the source system, th
 - **birthDate**: Date of birth
 - **deceased[x]**: Death indicator (boolean) or date/time of death
 - **address**: Practitioner addresses with two types:
-  - **uzAddress**: Addresses in Uzbekistan (country code "UZ") with support for mahalla
-  - **i18nAddress**: International addresses (non-Uzbekistan)
+  - **uzAddress**: Addresses in Uzbekistan (country code "UZ") with support for mahalla. **Must use coded values** from official registries for administrative divisions (state, district, city/mahalla)
+  - **i18nAddress**: International addresses (non-Uzbekistan). Administrative divisions use free text without required valuesets
 - **photo**: Practitioner photo
 - **qualification**: Qualifications obtained by the practitioner
   - **identifier**: Qualification identifier
@@ -86,24 +86,20 @@ When a practitioner's gender is set to "other", the profile requires the `gender
 
 ### Address types
 
+For detailed guidance on working with addresses, see [Working with Addresses](https://dhp.uz/fhir/core/en/fhir-basics.html#working-with-addresses).
+
 **Uzbek address (uzAddress):**
 ```json
 {
   "use": "work",
   "type": "physical",
-  "text": "Yashnobod tumani, Qoʻshbegi mahallasi, Bunyodkor koʻchasi, 42-uy",
+  "text": "Toshkent shahri, Yashnobod tumani, Qoʻshbegi mahallasi, Bunyodkor koʻchasi, 42-uy",
   "line": ["Bunyodkor koʻchasi, 42-uy"],
-  "city": "Toshkent",
-  "district": "Yashnobod tumani",
-  "state": "Toshkent shahri",
+  "city": "17262900085",
+  "district": "1726290",
+  "state": "1726",
   "postalCode": "100084",
-  "country": "UZ",
-  "extension": [
-    {
-      "url": "https://dhp.uz/fhir/core/StructureDefinition/mahalla",
-      "valueString": "Qoʻshbegi mahallasi"
-    }
-  ]
+  "country": "UZ"
 }
 ```
 

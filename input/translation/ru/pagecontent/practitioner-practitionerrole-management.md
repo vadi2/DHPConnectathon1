@@ -49,8 +49,8 @@ UZ Core профили: Элементы, отмеченные как Must Suppo
 - **birthDate**: Дата рождения
 - **deceased[x]**: Индикатор смерти (boolean) или дата/время смерти
 - **address**: Адреса практикующего специалиста двух типов:
-  - **uzAddress**: Адреса в Узбекистане (код страны "UZ") с поддержкой махалли
-  - **i18nAddress**: Международные адреса (не Узбекистан)
+  - **uzAddress**: Адреса в Узбекистане (код страны "UZ") с поддержкой махалли. **Необходимо использовать кодированные значения** из официальных реестров для административных подразделений (state, district, city/mahalla)
+  - **i18nAddress**: Международные адреса (не Узбекистан). Административные подразделения используют свободный текст без обязательных наборов значений
 - **photo**: Фотография практикующего специалиста
 - **qualification**: Квалификации, полученные практикующим специалистом
   - **identifier**: Идентификатор квалификации
@@ -86,24 +86,20 @@ UZ Core профили: Элементы, отмеченные как Must Suppo
 
 ### Типы адресов
 
+Для подробного руководства по работе с адресами см. [Работа с адресами](https://dhp.uz/fhir/core/ru/fhir-basics.html#working-with-addresses).
+
 **Узбекский адрес (uzAddress):**
 ```json
 {
   "use": "work",
   "type": "physical",
-  "text": "Yashnobod tumani, Qoʻshbegi mahallasi, Bunyodkor koʻchasi, 42-uy",
+  "text": "Toshkent shahri, Yashnobod tumani, Qoʻshbegi mahallasi, Bunyodkor koʻchasi, 42-uy",
   "line": ["Bunyodkor koʻchasi, 42-uy"],
-  "city": "Toshkent",
-  "district": "Yashnobod tumani",
-  "state": "Toshkent shahri",
+  "city": "17262900085",
+  "district": "1726290",
+  "state": "1726",
   "postalCode": "100084",
-  "country": "UZ",
-  "extension": [
-    {
-      "url": "https://dhp.uz/fhir/core/StructureDefinition/mahalla",
-      "valueString": "Qoʻshbegi mahallasi"
-    }
-  ]
+  "country": "UZ"
 }
 ```
 
