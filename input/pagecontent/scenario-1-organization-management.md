@@ -11,6 +11,8 @@
 
 ## Профиль uz-core-organization
 
+**Примечание**: В настоящее время валидация на сервере отключена, но клиентские приложения должны следовать правилам профиля для обеспечения совместимости и качества данных.
+
 ### Обязательные элементы
 
 - **name** (1..1): Название организации на узбекском языке
@@ -131,7 +133,7 @@ UZ Core профили: Элементы, отмеченные как Must Suppo
 - HTTP метод: GET
 - Endpoint: `/Organization/[id]`
 
-Получение конкретной организации по ID.
+Получение конкретной организации по ID. В системе уже загружено множество организаций и их подразделений из системы управления персоналом Argos HRM.
 
 Ответ: HTTP 200 OK с ресурсом Organization или HTTP 404 Not Found.
 
@@ -301,11 +303,14 @@ GET /Organization?partof=Organization/parent-org-id
 - **prov** (Healthcare Provider): Медицинские учреждения
 - **dept** (Department): Отделения и кабинеты
 
-Примеры из системы:
-- Fergana District Department of Sanitary-Epidemiological Safety
-- Yashnobod District Medical Union - Family Polyclinic #32
-- Endoscopy Cabinet (подразделение)
-- Bacteriology Laboratory (подразделение)
+Примеры медицинских учреждений (type=prov):
+- Farg'ona tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi bo'limi
+- Yashnobod tumani tibbiyot birlashmasi - 32-son oilaviy poliklinikasi
+- Tumanlararo 4-son Teri tanosil kasalliklari dispanseri
+
+Примеры отделений (type=dept):
+- Эндоскопия кабинети (Endoscopy Cabinet)
+- Бактериология лабораторияси (Bacteriology Laboratory)
 
 ## Полезные ссылки
 
