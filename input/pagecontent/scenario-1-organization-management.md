@@ -330,6 +330,9 @@ GET /Organization?partof=Organization/parent-org-id
 <div class="code-tabs">
   <ul class="nav nav-tabs" role="tablist">
     <li class="active">
+      <a href="#curl" data-toggle="tab">cURL</a>
+    </li>
+    <li>
       <a href="#python" data-toggle="tab">Python</a>
     </li>
     <li>
@@ -339,11 +342,52 @@ GET /Organization?partof=Organization/parent-org-id
       <a href="#java" data-toggle="tab">Java</a>
     </li>
     <li>
-      <a href="#curl" data-toggle="tab">cURL</a>
+      <a href="#csharp" data-toggle="tab">C#</a>
+    </li>
+    <li>
+      <a href="#go" data-toggle="tab">Go</a>
     </li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane active" id="python">
+    <div class="tab-pane active" id="curl">
+<pre><code class="language-bash">curl -X POST "https://playground.dhp.uz/fhir/Organization" \
+  -H "Content-Type: application/fhir+json" \
+  -d '{
+  "resourceType": "Organization",
+  "meta": {
+    "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization"]
+  },
+  "identifier": [
+    {
+      "system": "https://dhp.uz/fhir/core/sid/org/uz/soliq",
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "TAX"
+          }
+        ]
+      },
+      "value": "123456789"
+    }
+  ],
+  "active": true,
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+          "code": "prov",
+          "display": "Healthcare Provider"
+        }
+      ]
+    }
+  ],
+  "name": "Yangi tibbiyot muassasasi"
+}'
+</code></pre>
+    </div>
+    <div class="tab-pane" id="python">
 <pre><code class="language-python">import requests
 from fhir.resources.organization import Organization
 from fhir.resources.identifier import Identifier
@@ -513,42 +557,168 @@ IdType id = (IdType) outcome.getId();
 System.out.println("Организация создана с ID: " + id.getIdPart());
 </code></pre>
     </div>
-    <div class="tab-pane" id="curl">
-<pre><code class="language-bash">curl -X POST "https://playground.dhp.uz/fhir/Organization" \
-  -H "Content-Type: application/fhir+json" \
-  -d '{
-  "resourceType": "Organization",
-  "meta": {
-    "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization"]
-  },
-  "identifier": [
+    <div class="tab-pane" id="csharp">
+<pre><code class="language-csharp">using Hl7.Fhir.Model;
+using Hl7.Fhir.Rest;
+using System;
+
+// Создание FHIR клиента
+var client = new FhirClient("https://playground.dhp.uz/fhir");
+
+// Создание организации
+var organization = new Organization
+{
+    Meta = new Meta
     {
-      "system": "https://dhp.uz/fhir/core/sid/org/uz/soliq",
-      "type": {
-        "coding": [
-          {
-            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-            "code": "TAX"
-          }
-        ]
-      },
-      "value": "123456789"
-    }
-  ],
-  "active": true,
-  "type": [
+        Profile = new[] { "https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization" }
+    },
+    Identifier = new List&lt;Identifier&gt;
     {
-      "coding": [
+        new Identifier
         {
-          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-          "code": "prov",
-          "display": "Healthcare Provider"
+            System = "https://dhp.uz/fhir/core/sid/org/uz/soliq",
+            Type = new CodeableConcept
+            {
+                Coding = new List&lt;Coding&gt;
+                {
+                    new Coding
+                    {
+                        System = "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        Code = "TAX"
+                    }
+                }
+            },
+            Value = "123456789"
         }
-      ]
+    },
+    Active = true,
+    Type = new List&lt;CodeableConcept&gt;
+    {
+        new CodeableConcept
+        {
+            Coding = new List&lt;Coding&gt;
+            {
+                new Coding
+                {
+                    System = "http://terminology.hl7.org/CodeSystem/organization-type",
+                    Code = "prov",
+                    Display = "Healthcare Provider"
+                }
+            }
+        }
+    },
+    Name = "Yangi tibbiyot muassasasi"
+};
+
+// Создание на сервере
+var createdOrg = client.Create(organization);
+Console.WriteLine($"Организация создана с ID: {createdOrg.Id}");
+</code></pre>
+    </div>
+    <div class="tab-pane" id="go">
+<pre><code class="language-go">package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "io"
+    "net/http"
+)
+
+type Organization struct {
+    ResourceType string                 `json:"resourceType"`
+    Meta         *Meta                  `json:"meta,omitempty"`
+    Identifier   []Identifier           `json:"identifier,omitempty"`
+    Active       bool                   `json:"active"`
+    Type         []CodeableConcept      `json:"type,omitempty"`
+    Name         string                 `json:"name"`
+}
+
+type Meta struct {
+    Profile []string `json:"profile"`
+}
+
+type Identifier struct {
+    System string           `json:"system"`
+    Type   *CodeableConcept `json:"type,omitempty"`
+    Value  string           `json:"value"`
+}
+
+type CodeableConcept struct {
+    Coding []Coding `json:"coding,omitempty"`
+}
+
+type Coding struct {
+    System  string `json:"system"`
+    Code    string `json:"code"`
+    Display string `json:"display,omitempty"`
+}
+
+func main() {
+    baseURL := "https://playground.dhp.uz/fhir"
+
+    // Создание организации
+    org := Organization{
+        ResourceType: "Organization",
+        Meta: &amp;Meta{
+            Profile: []string{"https://dhp.uz/fhir/core/StructureDefinition/uz-core-organization"},
+        },
+        Identifier: []Identifier{
+            {
+                System: "https://dhp.uz/fhir/core/sid/org/uz/soliq",
+                Type: &amp;CodeableConcept{
+                    Coding: []Coding{
+                        {
+                            System: "http://terminology.hl7.org/CodeSystem/v2-0203",
+                            Code:   "TAX",
+                        },
+                    },
+                },
+                Value: "123456789",
+            },
+        },
+        Active: true,
+        Type: []CodeableConcept{
+            {
+                Coding: []Coding{
+                    {
+                        System:  "http://terminology.hl7.org/CodeSystem/organization-type",
+                        Code:    "prov",
+                        Display: "Healthcare Provider",
+                    },
+                },
+            },
+        },
+        Name: "Yangi tibbiyot muassasasi",
     }
-  ],
-  "name": "Yangi tibbiyot muassasasi"
-}'
+
+    // Сериализация в JSON
+    jsonData, err := json.Marshal(org)
+    if err != nil {
+        panic(err)
+    }
+
+    // Отправка POST запроса
+    resp, err := http.Post(
+        baseURL+"/Organization",
+        "application/fhir+json",
+        bytes.NewBuffer(jsonData),
+    )
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
+
+    if resp.StatusCode == 201 {
+        body, _ := io.ReadAll(resp.Body)
+        var createdOrg Organization
+        json.Unmarshal(body, &amp;createdOrg)
+        fmt.Printf("Организация создана с ID: %s\n", createdOrg.Name)
+    } else {
+        fmt.Printf("Ошибка: %d\n", resp.StatusCode)
+    }
+}
 </code></pre>
     </div>
   </div>
