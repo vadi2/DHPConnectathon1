@@ -64,7 +64,7 @@ UZ Core профили: Элементы, отмеченные как Must Suppo
 #### Элементы профиля
 
 - **identifier**: Идентификаторы организации
-  - **taxId**: Налоговый идентификатор (`system`: `https://dhp.uz/fhir/core/sid/org/uz/soliq`, `type.coding.code`: `TAX`)
+  - **taxId**: Налоговый идентификатор (`system`: `https://dhp.uz/fhir/core/sid/org/uz/soliq`)
   - **argosId**: Идентификатор ARGOS (`system`: `https://dhp.uz/fhir/core/sid/org/uz/argos`)
 - **active**: Статус активности
 - **type**: Тип организации. Элемент использует множественные системы кодирования для классификации организаций по разным измерениям:
@@ -101,10 +101,7 @@ UZ Core профили: Элементы, отмеченные как Must Suppo
       "system": "https://dhp.uz/fhir/core/sid/org/uz/soliq",
       "type": {
         "coding": [
-          {
-            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-            "code": "TAX"
-          }
+          {"system": "http://terminology.hl7.org/CodeSystem/v2-0203", "code": "TAX"}
         ]
       },
       "value": "123456789"
@@ -122,6 +119,7 @@ UZ Core профили: Элементы, отмеченные как Must Suppo
       ]
     }
   ],
+  "language": "uz",
   "name": "Yangi tibbiyot muassasasi"
 }
 ```
