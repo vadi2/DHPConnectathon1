@@ -8,6 +8,7 @@ This test suite validates all sample queries, searches, and CRUD operations docu
 - `organization-management.md`
 - `practitioner-practitionerrole-management.md`
 - `patient-registration.md`
+- `terminology-basics.md`
 
 ## Features
 
@@ -61,15 +62,18 @@ You can run individual scenarios or combine them:
 python run_all_tests.py organization
 python run_all_tests.py practitioner
 python run_all_tests.py patient
+python run_all_tests.py terminology
 
 # Run single scenario (short name)
 python run_all_tests.py org
 python run_all_tests.py pract
 python run_all_tests.py pat
+python run_all_tests.py term
 
 # Run multiple scenarios
 python run_all_tests.py org patient
 python run_all_tests.py pract org
+python run_all_tests.py term org
 
 # See available options
 python run_all_tests.py --help
@@ -88,6 +92,9 @@ python test_practitioner.py
 
 # Patient registration tests only
 python test_patient.py
+
+# Terminology tests only
+python test_terminology.py
 ```
 
 ### Run Against Different Server
@@ -153,6 +160,7 @@ tests/
 ├── test_organization.py     # Organization resource tests
 ├── test_practitioner.py     # Practitioner & PractitionerRole tests
 ├── test_patient.py          # Patient registration & duplicate detection tests
+├── test_terminology.py      # Terminology operations tests (CodeSystem, ValueSet, ConceptMap)
 ├── run_all_tests.py         # Main test runner
 └── README.md               # This file
 ```
@@ -218,6 +226,47 @@ tests/
 - Negative: Search non-existent PINFL
 - Negative: Search non-existent name
 - Negative: Update without If-Match header
+
+### Terminology Tests (30 tests)
+- **CodeSystem Tests:**
+  - Search all CodeSystems with summary
+  - Search CodeSystem by URL
+  - Search CodeSystem by status
+  - Search CodeSystem by content type
+  - Read CodeSystem by ID
+  - Search CodeSystem by name
+  - Search with url:below modifier
+- **ValueSet Tests:**
+  - Search all ValueSets with summary
+  - Search ValueSet by URL
+  - Search ValueSet by status
+  - Read ValueSet by ID
+- **$expand Operation:**
+  - Expand ValueSet by ID
+  - Expand ValueSet by URL
+  - Expand with count parameter
+  - Expand with filter parameter
+- **$validate-code Operation:**
+  - Validate valid code
+  - Validate invalid code
+  - Validate code with wrong system
+- **$lookup Operation:**
+  - Lookup code in CodeSystem
+  - Lookup non-existent code
+- **ConceptMap Tests:**
+  - Search for ConceptMaps
+  - Search ConceptMap by status
+  - Read ConceptMap by ID
+- **Version Management:**
+  - Search with version sorting
+  - Search for specific version
+- **Error Handling:**
+  - Expand non-existent ValueSet
+  - Validate with missing parameters
+  - Lookup with invalid system
+- **Advanced Search:**
+  - Combined search parameters
+  - Pagination test
 
 ## Output
 

@@ -84,10 +84,11 @@ parameters:
 # ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
 menu:
   Home: index.html
+  Patients: patient-registration.html
   Organizations: organization-management.html
   Practitioners: practitioner-practitionerrole-management.html
-  Patients: patient-registration.html
   Artifacts: artifacts.html
+  Terminology: terminology-basics.html
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
 # │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │

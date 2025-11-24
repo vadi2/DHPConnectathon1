@@ -10,6 +10,7 @@ from test_utils import Colors, TestResults
 from test_organization import run_organization_tests
 from test_practitioner import run_practitioner_tests
 from test_patient import run_patient_tests
+from test_terminology import run_terminology_tests
 from config import BASE_URL
 
 
@@ -48,14 +49,15 @@ Examples:
   python run_all_tests.py                    # Run all scenarios
   python run_all_tests.py organization       # Run only organization tests
   python run_all_tests.py patient practitioner  # Run patient and practitioner tests
-  python run_all_tests.py org pract pat      # Short names also work
+  python run_all_tests.py org pract pat term # Short names also work
+  python run_all_tests.py terminology        # Run terminology tests only
         """
     )
     parser.add_argument(
         'scenarios',
         nargs='*',
-        choices=['organization', 'org', 'practitioner', 'pract', 'patient', 'pat', 'all'],
-        help='Scenarios to run (organization, practitioner, patient, or all). Short names accepted (org, pract, pat).'
+        choices=['organization', 'org', 'practitioner', 'pract', 'patient', 'pat', 'terminology', 'term', 'all'],
+        help='Scenarios to run (organization, practitioner, patient, terminology, or all). Short names accepted (org, pract, pat, term).'
     )
     return parser.parse_args()
 
@@ -67,14 +69,16 @@ def normalize_scenarios(scenarios):
         'org': 'organization',
         'pract': 'practitioner',
         'pat': 'patient',
+        'term': 'terminology',
         'organization': 'organization',
         'practitioner': 'practitioner',
-        'patient': 'patient'
+        'patient': 'patient',
+        'terminology': 'terminology'
     }
 
     # If no scenarios specified or 'all' is specified, run all
     if not scenarios or 'all' in scenarios:
-        return ['organization', 'practitioner', 'patient']
+        return ['organization', 'practitioner', 'patient', 'terminology']
 
     # Normalize and deduplicate
     normalized = []
@@ -100,7 +104,8 @@ def main():
     test_scenarios = {
         'organization': ('Organization', run_organization_tests),
         'practitioner': ('Practitioner/PractitionerRole', run_practitioner_tests),
-        'patient': ('Patient', run_patient_tests)
+        'patient': ('Patient', run_patient_tests),
+        'terminology': ('Terminology', run_terminology_tests)
     }
 
     # Run selected scenarios
