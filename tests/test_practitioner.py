@@ -106,17 +106,38 @@ def run_practitioner_tests() -> TestResults:
     response = make_request('GET', '/Practitioner', params={'family:contains': 'Karimov'})
     assert_status_code(response, 200, 'Search practitioner by family name', results)
 
-    # Test 5: Search by phone number
+    # Test 5: Search by phone number (using test data)
+    # Note: We need to add phone to our test practitioner
     response = make_request('GET', '/Practitioner', params={
         'phone': '%2B998901234567'
     })
-    assert_status_code(response, 200, 'Search practitioner by phone', results)
+    if response.status_code == 200:
+        bundle = response.json()
+        entries = bundle.get('entry', [])
+        pract_entries = [e for e in entries if e.get('resource', {}).get('resourceType') == 'Practitioner']
+        if len(pract_entries) > 0:
+            print(f"  {Colors.CYAN}→ Found {len(pract_entries)} practitioner(s) with phone{Colors.RESET}")
+            results.add_pass('Search practitioner by phone')
+        else:
+            results.add_skip('Search practitioner by phone', 'No practitioners with test phone found')
+    else:
+        results.add_fail('Search practitioner by phone', f"Status {response.status_code}")
 
     # Test 6: Search by email
     response = make_request('GET', '/Practitioner', params={
         'email': 'doctor@example.com'
     })
-    assert_status_code(response, 200, 'Search practitioner by email', results)
+    if response.status_code == 200:
+        bundle = response.json()
+        entries = bundle.get('entry', [])
+        pract_entries = [e for e in entries if e.get('resource', {}).get('resourceType') == 'Practitioner']
+        if len(pract_entries) > 0:
+            print(f"  {Colors.CYAN}→ Found {len(pract_entries)} practitioner(s) with email{Colors.RESET}")
+            results.add_pass('Search practitioner by email')
+        else:
+            results.add_skip('Search practitioner by email', 'No practitioners with test email found')
+    else:
+        results.add_fail('Search practitioner by email', f"Status {response.status_code}")
 
     # Test 7: Search by address city
     response = make_request('GET', '/Practitioner', params={

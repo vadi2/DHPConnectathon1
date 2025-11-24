@@ -44,7 +44,17 @@ def run_patient_tests() -> TestResults:
     response = make_request('GET', '/Patient', params={
         'phone': '%2B998901234567'
     })
-    assert_status_code(response, 200, 'Search patient by phone', results)
+    if response.status_code == 200:
+        bundle = response.json()
+        entries = bundle.get('entry', [])
+        patient_entries = [e for e in entries if e.get('resource', {}).get('resourceType') == 'Patient']
+        if len(patient_entries) > 0:
+            print(f"  {Colors.CYAN}→ Found {len(patient_entries)} patient(s) with phone{Colors.RESET}")
+            results.add_pass('Search patient by phone')
+        else:
+            results.add_skip('Search patient by phone', 'No patients with test phone found')
+    else:
+        results.add_fail('Search patient by phone', f"Status {response.status_code}")
 
     # Test 6: Search by birthdate
     response = make_request('GET', '/Patient', params={'birthdate': '1985-05-15'})
