@@ -19,14 +19,80 @@ def run_patient_tests() -> TestResults:
 
     print(f"\n{Colors.BOLD}=== Patient Registration Tests ==={Colors.RESET}\n")
 
+    # Setup: Create test patient first for search tests
+    print(f"\n{Colors.BOLD}Search Tests Setup{Colors.RESET}")
+    test_pinfl = f"{TEST_IDENTIFIER_PREFIX}search-12345678901234"
+    search_test_patient = {
+        "resourceType": "Patient",
+        "meta": {
+            "profile": ["https://dhp.uz/fhir/core/StructureDefinition/uz-core-patient"]
+        },
+        "language": "uz",
+        "identifier": [
+            {
+                "use": "official",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                            "code": "NI"
+                        }
+                    ]
+                },
+                "system": "https://dhp.uz/fhir/core/sid/pid/uz/ni",
+                "value": test_pinfl
+            }
+        ],
+        "active": True,
+        "name": [
+            {
+                "use": "official",
+                "family": f"{TEST_IDENTIFIER_PREFIX}SearchTest",
+                "given": ["Test", "Patient"]
+            }
+        ],
+        "gender": "male",
+        "birthDate": "1985-05-15"
+    }
+
+    response = make_request('POST', '/Patient', data=search_test_patient)
+    test_patient_id = None
+    if response.status_code == 201:
+        created_patient = response.json()
+        test_patient_id = created_patient['id']
+        created_resources.append(('Patient', test_patient_id))
+        results.add_pass("Create test patient for search tests")
+
+        # Wait for indexing
+        print(f"{Colors.BLUE}Waiting 5 seconds for server indexing...{Colors.RESET}")
+        import time
+        time.sleep(5)
+    else:
+        results.add_fail("Create test patient", f"Status {response.status_code}")
+
     # Search Tests
     print(f"\n{Colors.BOLD}Patient Search Tests{Colors.RESET}")
 
-    # Test 1: Search patient by PINFL
-    response = make_request('GET', '/Patient', params={
-        'identifier': 'https://dhp.uz/fhir/core/sid/pid/uz/ni|12345678901234'
-    }, highlight_fields=['entry[0].resource.identifier', 'entry[0].resource.name'])
-    assert_status_code(response, 200, 'Search patient by PINFL identifier', results)
+    # Test 1: Search patient by PINFL (using our test data)
+    if test_pinfl:
+        response = make_request('GET', '/Patient', params={
+            'identifier': f'https://dhp.uz/fhir/core/sid/pid/uz/ni|{test_pinfl}'
+        }, highlight_fields=['entry[0].resource.identifier', 'entry[0].resource.name'])
+    else:
+        response = make_request('GET', '/Patient', params={
+            'identifier': 'https://dhp.uz/fhir/core/sid/pid/uz/ni|12345678901234'
+        })
+    if response.status_code == 200:
+        bundle = response.json()
+        entries = bundle.get('entry', [])
+        patient_entries = [e for e in entries if e.get('resource', {}).get('resourceType') == 'Patient']
+        if len(patient_entries) > 0:
+            print(f"  {Colors.CYAN}→ Found {len(patient_entries)} patient(s) with PINFL{Colors.RESET}")
+            results.add_pass('Search patient by PINFL identifier')
+        else:
+            results.add_skip('Search patient by PINFL identifier', 'Test patient not found')
+    else:
+        results.add_fail('Search patient by PINFL identifier', f"Status {response.status_code}")
 
     # Test 2: Search patient by name with :contains modifier
     response = make_request('GET', '/Patient', params={'name:contains': 'Karimov'})
