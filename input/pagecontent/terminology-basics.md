@@ -371,7 +371,15 @@ Response:
     },
     {
       "name": "display",
-      "valueString": "General practitioner"
+      "valueString": "Umumiy amaliyot vrachi"
+    },
+    {
+      "name": "code",
+      "valueCode": "2211.1"
+    },
+    {
+      "name": "system",
+      "valueUri": "https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs"
     }
   ]
 }
