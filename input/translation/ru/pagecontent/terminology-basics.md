@@ -556,11 +556,11 @@ GET /ConceptMap?source-scope-uri=urn:iso:std:iso:3166
 - `target`: Целевой ValueSet или CodeSystem
 - `reverse`: Обратная трансляция (использовать цель как источник)
 
-**Пример: Транслировать узбекский код профессии в SNOMED**
+**Пример: Транслировать код страны ISO 3166**
 
 Используя GET:
 ```
-GET /ConceptMap/$translate?url=https://terminology.dhp.uz/fhir/core/ConceptMap/position-to-snomed&system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&code=2211.1&target=http://snomed.info/sct
+GET /ConceptMap/$translate?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alpha3-to-alpha2-cs&system=urn:iso:std:iso:3166&code=UZB&target=urn:iso:std:iso:3166
 ```
 
 Используя POST (рекомендуется для сложных запросов):
@@ -573,19 +573,19 @@ Content-Type: application/fhir+json
   "parameter": [
     {
       "name": "url",
-      "valueUri": "https://terminology.dhp.uz/fhir/core/ConceptMap/position-to-snomed"
+      "valueUri": "https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alpha3-to-alpha2-cs"
     },
     {
       "name": "system",
-      "valueUri": "https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs"
+      "valueUri": "urn:iso:std:iso:3166"
     },
     {
       "name": "code",
-      "valueCode": "2211.1"
+      "valueCode": "UZB"
     },
     {
       "name": "target",
-      "valueUri": "http://snomed.info/sct"
+      "valueUri": "urn:iso:std:iso:3166"
     }
   ]
 }
@@ -610,9 +610,9 @@ Content-Type: application/fhir+json
         {
           "name": "concept",
           "valueCoding": {
-            "system": "http://snomed.info/sct",
-            "code": "59058001",
-            "display": "General physician"
+            "system": "urn:iso:std:iso:3166",
+            "code": "UZ",
+            "display": "Uzbekistan"
           }
         }
       ]
