@@ -422,10 +422,8 @@ All supported search parameters can be found in the capability statement at [DHP
 | `address-postalcode` | string | Search by postal code | `?address-postalcode=100084` |
 | `address-state` | string | Search by state/region | `?address-state=Toshkent` |
 | `gender` | token | Search by gender | `?gender=male` |
-| `birthdate` | date | Search by birth date | `?birthdate=1980-05-15` |
 | `active` | token | Filter by status | `?active=true` |
 | `deceased` | token | Filter by deceased status | `?deceased=false` |
-| `qualification-code` | token | Search by qualification | `?qualification-code=MD` |
 
 ### PractitionerRole search parameters
 
@@ -467,11 +465,6 @@ GET /PractitionerRole?practitioner=Practitioner/123
 GET /PractitionerRole?organization=Organization/789
 ```
 
-**Find practitioners by qualification:**
-```
-GET /Practitioner?qualification-code=http://terminology.hl7.org/CodeSystem/v2-0360|MD
-```
-
 **Find active specialists of a specific type:**
 ```
 GET /PractitionerRole?specialty=https://terminology.dhp.uz/fhir/core/CodeSystem/profession-specialization-cs|419772000&active=true
@@ -487,11 +480,6 @@ GET /Practitioner?family=Karimov&address-city=Toshkent&active=true
 Multiple values (logical OR):
 ```
 GET /Practitioner?gender=male,female
-```
-
-Date comparisons:
-```
-GET /Practitioner?birthdate=gt1980-01-01&birthdate=lt1990-12-31
 ```
 
 ### Pagination
