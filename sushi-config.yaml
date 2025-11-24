@@ -89,6 +89,7 @@ menu:
   Practitioners: practitioner-practitionerrole-management.html
   Artifacts: artifacts.html
   Terminology: terminology-basics.html
+  Capabilities: capability-discovery.html
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
 # │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │
