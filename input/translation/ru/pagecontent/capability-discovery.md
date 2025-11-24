@@ -45,10 +45,13 @@ GET /metadata
 {
   "resourceType": "CapabilityStatement",
   "status": "active",
-  "date": "2024-11-24",
-  "publisher": "Digital Health Platform",
+  "date": "2025-11-10T11:23:12+05:00",
   "kind": "instance",
-  "fhirVersion": "5.0.0"
+  "fhirVersion": "5.0.0",
+  "implementation": {
+    "description": "FHIR R5 Server",
+    "url": "https://playground.dhp.uz/fhir"
+  }
 }
 ```
 
@@ -162,7 +165,7 @@ async function checkServerCapabilities() {
   const response = await fetch('https://playground.dhp.uz/fhir/metadata');
   const capability = await response.json();
 
-  console.log('Сервер:', capability.publisher);
+  console.log('Сервер:', capability.implementation?.description || 'Неизвестно');
   console.log('Версия FHIR:', capability.fhirVersion);
 
   // Проверить поддержку терминологии
