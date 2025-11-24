@@ -81,19 +81,19 @@ def run_organization_tests() -> TestResults:
     else:
         results.add_fail("Search organization by soliq ID", f"Status {response.status_code}")
 
-    # Test 2: Search by name (partial match) - should find our test org
-    response = make_request('GET', '/Organization', params={'name': 'Fergana'})
+    # Test 2: Search by name with :contains modifier (substring match)
+    response = make_request('GET', '/Organization', params={'name:contains': 'Fergana'})
     if response.status_code == 200:
         bundle = response.json()
         # Check if we found any organizations
         entries = [e for e in bundle.get('entry', []) if e.get('resource', {}).get('resourceType') == 'Organization']
         if len(entries) > 0:
-            results.add_pass('Search organization by name (partial)')
+            results.add_pass('Search organization by name:contains (substring)')
         else:
             # Server might need more time for indexing or name search might have limitations
-            results.add_skip('Search organization by name (partial)', 'No results (server indexing delay or search limitation)')
+            results.add_skip('Search organization by name:contains', 'No results (server indexing delay or search limitation)')
     else:
-        results.add_fail("Search organization by name", f"Status {response.status_code}")
+        results.add_fail("Search organization by name:contains", f"Status {response.status_code}")
 
     # Test 3: Search with exact name match
     response = make_request('GET', '/Organization', params={'name:exact': 'Toshkent'})
@@ -115,9 +115,9 @@ def run_organization_tests() -> TestResults:
     else:
         results.add_fail("Search active organizations", f"Status {response.status_code}")
 
-    # Test 6: Combining parameters (AND)
+    # Test 6: Combining parameters (AND) with :contains modifier
     response = make_request('GET', '/Organization', params={
-        'name': 'Hospital',
+        'name:contains': 'Hospital',
         'active': 'true'
     })
     assert_status_code(response, 200, 'Search with combined parameters (AND)', results)

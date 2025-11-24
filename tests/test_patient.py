@@ -28,16 +28,16 @@ def run_patient_tests() -> TestResults:
     }, highlight_fields=['entry[0].resource.identifier', 'entry[0].resource.name'])
     assert_status_code(response, 200, 'Search patient by PINFL identifier', results)
 
-    # Test 2: Search patient by name
-    response = make_request('GET', '/Patient', params={'name': 'Karimov'})
+    # Test 2: Search patient by name with :contains modifier
+    response = make_request('GET', '/Patient', params={'name:contains': 'Karimov'})
     assert_status_code(response, 200, 'Search patient by name', results)
 
-    # Test 3: Search by given name
-    response = make_request('GET', '/Patient', params={'given': 'Alisher'})
+    # Test 3: Search by given name with :contains modifier
+    response = make_request('GET', '/Patient', params={'given:contains': 'Alisher'})
     assert_status_code(response, 200, 'Search patient by given name', results)
 
-    # Test 4: Search by family name
-    response = make_request('GET', '/Patient', params={'family': 'Karimov'})
+    # Test 4: Search by family name with :contains modifier
+    response = make_request('GET', '/Patient', params={'family:contains': 'Karimov'})
     assert_status_code(response, 200, 'Search patient by family name', results)
 
     # Test 5: Search by phone number
@@ -61,9 +61,9 @@ def run_patient_tests() -> TestResults:
     })
     assert_status_code(response, 200, 'Search patient by city', results)
 
-    # Test 9: Combined demographics search
+    # Test 9: Combined demographics search with :contains modifier
     response = make_request('GET', '/Patient', params={
-        'family': 'Karimov',
+        'family:contains': 'Karimov',
         'given': 'Alisher',
         'birthdate': '1985-05-15'
     })
@@ -272,9 +272,9 @@ def run_patient_tests() -> TestResults:
             else:
                 results.add_fail("Link duplicate patient", f"Status {response.status_code}")
 
-    # Test 18: Search by demographics (fuzzy matching)
+    # Test 18: Search by demographics (substring matching) with :contains
     response = make_request('GET', '/Patient', params={
-        'family': f"{TEST_IDENTIFIER_PREFIX}Karimov",
+        'family:contains': f"{TEST_IDENTIFIER_PREFIX}Karimov",
         'birthdate': '1985-05-15',
         'gender': 'male'
     })

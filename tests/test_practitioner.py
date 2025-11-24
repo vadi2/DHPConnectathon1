@@ -27,20 +27,20 @@ def run_practitioner_tests() -> TestResults:
     })
     assert_status_code(response, 200, 'Search practitioner by ARGOS identifier', results)
 
-    # Test 2: Search practitioner by name
-    response = make_request('GET', '/Practitioner', params={'name': 'Karimov'})
+    # Test 2: Search practitioner by name with :contains modifier
+    response = make_request('GET', '/Practitioner', params={'name:contains': 'Karimov'})
     if response.status_code == 200:
         bundle = response.json()
         assert_resource_exists(bundle, 'Practitioner', 'Search practitioner by name', results)
     else:
         results.add_fail("Search practitioner by name", f"Status {response.status_code}")
 
-    # Test 3: Search by given name
-    response = make_request('GET', '/Practitioner', params={'given': 'Alisher'})
+    # Test 3: Search by given name with :contains modifier
+    response = make_request('GET', '/Practitioner', params={'given:contains': 'Alisher'})
     assert_status_code(response, 200, 'Search practitioner by given name', results)
 
-    # Test 4: Search by family name
-    response = make_request('GET', '/Practitioner', params={'family': 'Karimov'})
+    # Test 4: Search by family name with :contains modifier
+    response = make_request('GET', '/Practitioner', params={'family:contains': 'Karimov'})
     assert_status_code(response, 200, 'Search practitioner by family name', results)
 
     # Test 5: Search by phone number
@@ -87,9 +87,9 @@ def run_practitioner_tests() -> TestResults:
     })
     assert_status_code(response, 200, 'Search practitioner by qualification', results)
 
-    # Test 12: Combined search parameters
+    # Test 12: Combined search parameters with :contains modifier
     response = make_request('GET', '/Practitioner', params={
-        'family': 'Karimov',
+        'family:contains': 'Karimov',
         'address-city': 'Toshkent',
         'active': 'true'
     })
