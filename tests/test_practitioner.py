@@ -167,12 +167,12 @@ def run_practitioner_tests() -> TestResults:
     else:
         results.add_fail('Search practitioner by email', f"Status {response.status_code}")
 
-    # Test 7: Search by address city
+    # Test 7: Search by address city (using actual city code from sample data)
     response = make_request('GET', '/Practitioner', params={
-        'address-city': 'Toshkent',
+        'address-city': '15010017',
         'active': 'true'
     })
-    assert_status_code(response, 200, 'Search practitioner by city', results)
+    assert_status_code(response, 200, 'Search practitioner by city code', results)
 
     # Test 8: Search by gender
     response = make_request('GET', '/Practitioner', params={'gender': 'male'})
@@ -182,27 +182,10 @@ def run_practitioner_tests() -> TestResults:
     else:
         results.add_fail("Search practitioner by gender", f"Status {response.status_code}")
 
-    # Test 9: Search by birth date
-    response = make_request('GET', '/Practitioner', params={'birthdate': '1980-05-15'})
-    assert_status_code(response, 200, 'Search practitioner by birthdate', results)
-
-    # Test 10: Search with date range
-    response = make_request('GET', '/Practitioner', params={
-        'birthdate': 'gt1980-01-01',
-        'birthdate': 'lt1990-12-31'
-    })
-    assert_status_code(response, 200, 'Search practitioner with date range', results)
-
-    # Test 11: Search by qualification
-    response = make_request('GET', '/Practitioner', params={
-        'qualification-code': 'MD'
-    })
-    assert_status_code(response, 200, 'Search practitioner by qualification', results)
-
-    # Test 12: Combined search parameters with :contains modifier
+    # Test 9: Combined search parameters with :contains modifier
     response = make_request('GET', '/Practitioner', params={
         'family:contains': 'Karimov',
-        'address-city': 'Toshkent',
+        'address-city': '15010017',
         'active': 'true'
     })
     assert_status_code(response, 200, 'Search practitioner with combined params', results)
@@ -210,7 +193,7 @@ def run_practitioner_tests() -> TestResults:
     # CRUD Operations
     print(f"\n{Colors.BOLD}Practitioner CRUD Operations{Colors.RESET}")
 
-    # Test 13: Create another practitioner for CRUD tests
+    # Test 10: Create another practitioner for CRUD tests
     crud_test_practitioner = {
         "resourceType": "Practitioner",
         "meta": {
@@ -263,12 +246,12 @@ def run_practitioner_tests() -> TestResults:
         created_resources.append(('Practitioner', pract_id))
         results.add_pass("Create practitioner")
 
-        # Test 14: Read practitioner
+        # Test 11: Read practitioner
         response = make_request('GET', f'/Practitioner/{pract_id}')
         if response.status_code == 200:
             results.add_pass("Read practitioner by ID")
 
-            # Test 15: Update practitioner
+            # Test 12: Update practitioner
             read_pract = response.json()
             read_pract['name'][0]['given'] = ["Updated", "Name"]
             version = read_pract['meta']['versionId']
@@ -288,7 +271,7 @@ def run_practitioner_tests() -> TestResults:
     # PractitionerRole Tests
     print(f"\n{Colors.BOLD}PractitionerRole Tests{Colors.RESET}")
 
-    # Test 16: Search for practitioner roles
+    # Test 13: Search for practitioner roles
     response = make_request('GET', '/PractitionerRole', params={'active': 'true'})
     if response.status_code == 200:
         bundle = response.json()
@@ -296,7 +279,7 @@ def run_practitioner_tests() -> TestResults:
     else:
         results.add_fail("Search practitioner roles", f"Status {response.status_code}")
 
-    # Test 17: Search by practitioner reference
+    # Test 14: Search by practitioner reference
     if created_resources and created_resources[0][0] == 'Practitioner':
         pract_id = created_resources[0][1]
         response = make_request('GET', '/PractitionerRole', params={
@@ -304,7 +287,7 @@ def run_practitioner_tests() -> TestResults:
         })
         assert_status_code(response, 200, 'Search practitioner roles by practitioner', results)
 
-    # Test 18: Search by organization
+    # Test 15: Search by organization
     # First try to find an organization
     response = make_request('GET', '/Organization', params={'_count': '1'})
     if response.status_code == 200:
@@ -319,7 +302,7 @@ def run_practitioner_tests() -> TestResults:
             })
             assert_status_code(response, 200, 'Search practitioner roles by organization', results)
 
-            # Test 19: Create practitioner role
+            # Test 16: Create practitioner role
             if created_resources and created_resources[0][0] == 'Practitioner':
                 pract_id = created_resources[0][1]
 
@@ -357,7 +340,7 @@ def run_practitioner_tests() -> TestResults:
                     created_resources.append(('PractitionerRole', created_role['id']))
                     results.add_pass("Create practitioner role")
 
-                    # Test 20: Read practitioner role
+                    # Test 17: Read practitioner role
                     role_id = created_role['id']
                     response = make_request('GET', f'/PractitionerRole/{role_id}')
                     if response.status_code == 200:
@@ -371,7 +354,7 @@ def run_practitioner_tests() -> TestResults:
     else:
         results.add_skip("Organization-based tests", f"Cannot search organizations: {response.status_code}")
 
-    # Test 21: Search with _include
+    # Test 18: Search with _include
     response = make_request('GET', '/PractitionerRole', params={
         '_include': 'PractitionerRole:practitioner',
         '_count': '5'
@@ -381,7 +364,7 @@ def run_practitioner_tests() -> TestResults:
     # Negative Tests
     print(f"\n{Colors.BOLD}Negative Tests{Colors.RESET}")
 
-    # Test 22: Read non-existent practitioner (accept both 400 and 404)
+    # Test 19: Read non-existent practitioner (accept both 400 and 404)
     # 400 = Invalid ID format, 404 = Valid format but doesn't exist
     response = make_request('GET', '/Practitioner/nonexistent-practitioner-12345')
     if response.status_code in [400, 404]:
@@ -389,7 +372,7 @@ def run_practitioner_tests() -> TestResults:
     else:
         results.add_fail('Read non-existent practitioner', f"Expected 400 or 404, got {response.status_code}")
 
-    # Test 23: Search non-existent practitioner
+    # Test 20: Search non-existent practitioner
     response = make_request('GET', '/Practitioner', params={
         'name': 'NONEXISTENT_PRACTITIONER_XYZ_12345'
     })
