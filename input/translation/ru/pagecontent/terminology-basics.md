@@ -217,7 +217,7 @@ GET /ConceptMap?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alp
 | `name` | string | Поиск по имени | `?name=position` |
 | `title` | string | Поиск по заголовку | `?title=profession` |
 | `status` | token | Фильтр по статусу | `?status=active` |
-| `version` | token | Поиск по версии | `?version=1.0.0` |
+| `version` | token | Поиск по версии | `?version=0.3.0` |
 | `publisher` | string | Поиск по издателю | `?publisher=Digital Health Platform` |
 | `content` | token | Тип содержимого | `?content=complete` |
 | `system` | uri | Поиск конкретной системы | `?system=http://snomed.info/sct` |
@@ -230,7 +230,7 @@ GET /ConceptMap?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alp
 | `name` | string | Поиск по имени | `?name=position` |
 | `title` | string | Поиск по заголовку | `?title=profession` |
 | `status` | token | Фильтр по статусу | `?status=active` |
-| `version` | token | Поиск по версии | `?version=1.0.0` |
+| `version` | token | Поиск по версии | `?version=0.3.0` |
 | `publisher` | string | Поиск по издателю | `?publisher=Digital Health Platform` |
 | `context` | token | Поиск по контексту использования | `?context=practitioner` |
 | `expansion` | uri | Поиск по идентификатору расширения | `?expansion=urn:uuid:...` |
@@ -494,24 +494,24 @@ GET /CodeSystem/$lookup?system=https://terminology.dhp.uz/fhir/core/CodeSystem/p
 
 **Получить конкретную версию:**
 ```
-GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=1.0.0
+GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=0.3.0
 ```
 
 ### Использование версий в операциях
 
 **Расширить конкретную версию ValueSet:**
 ```
-GET /ValueSet/$expand?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&valueSetVersion=1.0.0
+GET /ValueSet/$expand?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&valueSetVersion=0.3.0
 ```
 
 **Валидировать против конкретной версии:**
 ```
-GET /ValueSet/$validate-code?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&valueSetVersion=1.0.0&code=2211.1&system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs
+GET /ValueSet/$validate-code?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&valueSetVersion=0.3.0&code=2211.1&system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs
 ```
 
 **Искать в конкретной версии:**
 ```
-GET /CodeSystem/$lookup?system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=1.0.0&code=2211.1
+GET /CodeSystem/$lookup?system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=0.3.0&code=2211.1
 ```
 
 ### Лучшие практики

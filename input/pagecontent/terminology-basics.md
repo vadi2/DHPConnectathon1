@@ -217,7 +217,7 @@ Response: HTTP 200 OK with a Bundle containing the ConceptMap resource showing t
 | `name` | string | Search by name | `?name=position` |
 | `title` | string | Search by title | `?title=profession` |
 | `status` | token | Filter by status | `?status=active` |
-| `version` | token | Search by version | `?version=1.0.0` |
+| `version` | token | Search by version | `?version=0.3.0` |
 | `publisher` | string | Search by publisher | `?publisher=Digital Health Platform` |
 | `content` | token | Content type | `?content=complete` |
 | `system` | uri | Search for specific system | `?system=http://snomed.info/sct` |
@@ -230,7 +230,7 @@ Response: HTTP 200 OK with a Bundle containing the ConceptMap resource showing t
 | `name` | string | Search by name | `?name=position` |
 | `title` | string | Search by title | `?title=profession` |
 | `status` | token | Filter by status | `?status=active` |
-| `version` | token | Search by version | `?version=1.0.0` |
+| `version` | token | Search by version | `?version=0.3.0` |
 | `publisher` | string | Search by publisher | `?publisher=Digital Health Platform` |
 | `context` | token | Search by use context | `?context=practitioner` |
 | `expansion` | uri | Search by expansion identifier | `?expansion=urn:uuid:...` |
@@ -494,24 +494,24 @@ Every terminology resource has two version identifiers:
 
 **Get a specific version:**
 ```
-GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=1.0.0
+GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=0.3.0
 ```
 
 ### Using versions in operations
 
 **Expand a specific version of a ValueSet:**
 ```
-GET /ValueSet/$expand?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&valueSetVersion=1.0.0
+GET /ValueSet/$expand?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&valueSetVersion=0.3.0
 ```
 
 **Validate against a specific version:**
 ```
-GET /ValueSet/$validate-code?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&valueSetVersion=1.0.0&code=2211.1&system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs
+GET /ValueSet/$validate-code?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&valueSetVersion=0.3.0&code=2211.1&system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs
 ```
 
 **Look up in a specific version:**
 ```
-GET /CodeSystem/$lookup?system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=1.0.0&code=2211.1
+GET /CodeSystem/$lookup?system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=0.3.0&code=2211.1
 ```
 
 ### Best practices
