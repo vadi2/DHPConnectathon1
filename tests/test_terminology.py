@@ -614,37 +614,37 @@ def run_terminology_tests() -> TestResults:
     else:
         results.add_skip("Search ConceptMap by name", f"Status {response.status_code}")
 
-    # Test 33: Search ConceptMap by source-uri
+    # Test 33: Search ConceptMap by source-scope-uri
     response = make_request('GET', '/ConceptMap', params={
-        'source-uri': 'http://terminology.hl7.org/CodeSystem/v2-0203',
+        'source-scope-uri': 'urn:iso:std:iso:3166',
         '_count': '3'
     })
     if response.status_code == 200:
         bundle = response.json()
         entries = extract_entries(bundle, 'ConceptMap')
         if len(entries) > 0:
-            print(f"  {Colors.CYAN}→ Found {len(entries)} ConceptMap(s) by source-uri{Colors.RESET}")
-            results.add_pass("Search ConceptMap by source-uri")
+            print(f"  {Colors.CYAN}→ Found {len(entries)} ConceptMap(s) by source-scope-uri{Colors.RESET}")
+            results.add_pass("Search ConceptMap by source-scope-uri")
         else:
-            results.add_skip("Search ConceptMap by source-uri", "No ConceptMaps found")
+            results.add_skip("Search ConceptMap by source-scope-uri", "No ConceptMaps found")
     else:
-        results.add_skip("Search ConceptMap by source-uri", f"Status {response.status_code}")
+        results.add_skip("Search ConceptMap by source-scope-uri", f"Status {response.status_code}")
 
-    # Test 34: Search ConceptMap by target-uri
+    # Test 34: Search ConceptMap by target-scope-uri
     response = make_request('GET', '/ConceptMap', params={
-        'target-uri': 'http://snomed.info/sct',
+        'target-scope-uri': 'urn:iso:std:iso:3166',
         '_count': '3'
     })
     if response.status_code == 200:
         bundle = response.json()
         entries = extract_entries(bundle, 'ConceptMap')
         if len(entries) > 0:
-            print(f"  {Colors.CYAN}→ Found {len(entries)} ConceptMap(s) by target-uri{Colors.RESET}")
-            results.add_pass("Search ConceptMap by target-uri")
+            print(f"  {Colors.CYAN}→ Found {len(entries)} ConceptMap(s) by target-scope-uri{Colors.RESET}")
+            results.add_pass("Search ConceptMap by target-scope-uri")
         else:
-            results.add_skip("Search ConceptMap by target-uri", "No ConceptMaps found")
+            results.add_skip("Search ConceptMap by target-scope-uri", "No ConceptMaps found")
     else:
-        results.add_skip("Search ConceptMap by target-uri", f"Status {response.status_code}")
+        results.add_skip("Search ConceptMap by target-scope-uri", f"Status {response.status_code}")
 
     # Test 35: Combined search parameters
     response = make_request('GET', '/ValueSet', params={

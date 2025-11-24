@@ -245,8 +245,10 @@ GET /ConceptMap?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alp
 | `url` | uri | Поиск по каноническому URL | `?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alpha3-to-alpha2-cs` |
 | `name` | string | Поиск по имени | `?name=iso` |
 | `status` | token | Фильтр по статусу | `?status=active` |
-| `source-uri` | uri | Исходная система или ValueSet | `?source-uri=urn:iso:std:iso:3166` |
-| `target-uri` | uri | Целевая система или ValueSet | `?target-uri=urn:iso:std:iso:3166` |
+| `title` | string | Поиск по заголовку | `?title=alpha` |
+| `publisher` | string | Поиск по издателю | `?publisher=Uzinfocom` |
+| `source-scope-uri` | uri | Исходная система или ValueSet | `?source-scope-uri=urn:iso:std:iso:3166` |
+| `target-scope-uri` | uri | Целевая система или ValueSet | `?target-scope-uri=urn:iso:std:iso:3166` |
 
 ### Типичные шаблоны поиска
 
@@ -272,7 +274,7 @@ GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and
 
 **Найти ConceptMap для кодов стран ISO 3166:**
 ```
-GET /ConceptMap?source-uri=urn:iso:std:iso:3166
+GET /ConceptMap?source-scope-uri=urn:iso:std:iso:3166
 ```
 
 ### Пагинация
@@ -557,7 +559,7 @@ GET /ConceptMap?source-uri=https://terminology.dhp.uz/fhir/core/CodeSystem/posit
 
 **Найти ConceptMap для кодов стран ISO 3166:**
 ```
-GET /ConceptMap?source-uri=urn:iso:std:iso:3166
+GET /ConceptMap?source-scope-uri=urn:iso:std:iso:3166
 ```
 
 ### Использование операции $translate

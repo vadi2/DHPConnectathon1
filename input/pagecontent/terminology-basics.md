@@ -245,8 +245,10 @@ Response: HTTP 200 OK with a Bundle containing the ConceptMap resource showing t
 | `url` | uri | Search by canonical URL | `?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alpha3-to-alpha2-cs` |
 | `name` | string | Search by name | `?name=iso` |
 | `status` | token | Filter by status | `?status=active` |
-| `source-uri` | uri | Source system or ValueSet | `?source-uri=urn:iso:std:iso:3166` |
-| `target-uri` | uri | Target system or ValueSet | `?target-uri=urn:iso:std:iso:3166` |
+| `title` | string | Search by title | `?title=alpha` |
+| `publisher` | string | Search by publisher | `?publisher=Uzinfocom` |
+| `source-scope-uri` | uri | Source system or ValueSet | `?source-scope-uri=urn:iso:std:iso:3166` |
+| `target-scope-uri` | uri | Target system or ValueSet | `?target-scope-uri=urn:iso:std:iso:3166` |
 
 ### Common search patterns
 
@@ -272,7 +274,7 @@ GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and
 
 **Find ConceptMaps for ISO 3166 country codes:**
 ```
-GET /ConceptMap?source-uri=urn:iso:std:iso:3166
+GET /ConceptMap?source-scope-uri=urn:iso:std:iso:3166
 ```
 
 ### Pagination
@@ -557,7 +559,7 @@ GET /ConceptMap?source-uri=https://terminology.dhp.uz/fhir/core/CodeSystem/posit
 
 **Find ConceptMaps for ISO 3166 country codes:**
 ```
-GET /ConceptMap?source-uri=urn:iso:std:iso:3166
+GET /ConceptMap?source-scope-uri=urn:iso:std:iso:3166
 ```
 
 ### Using $translate operation
