@@ -514,14 +514,6 @@ GET /ValueSet/$validate-code?url=https://terminology.dhp.uz/fhir/core/ValueSet/p
 GET /CodeSystem/$lookup?system=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=0.3.0&code=2211.1
 ```
 
-### Best practices
-
-1. **Development**: Use latest version to stay current
-2. **Testing**: Test with multiple versions if you support them
-3. **Production**: Pin to specific versions for consistency
-4. **Documentation**: Document which versions your application supports
-5. **Migration**: Plan version updates carefully, test thoroughly
-
 ## Working with ConceptMaps
 
 ConceptMaps enable translation between different coding systems. This is essential when integrating with systems that use different terminologies.
