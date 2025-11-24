@@ -7,6 +7,7 @@ Goal: Retrieve existing Practitioner and PractitionerRole records, integrate the
 - Resources: Practitioner, PractitionerRole
 - Skills: GET/POST/PUT/DELETE operations, search, references, identifiers
 - Base URL: `https://playground.dhp.uz/fhir`
+  - **Note:** This is a temporary URL that will be replaced with the final one closer to the connectathon
 - Profiles:
   - [uz-core-practitioner](https://dhp.uz/fhir/core/en/StructureDefinition-uz-core-practitioner.html)
   - [uz-core-practitionerrole](https://dhp.uz/fhir/core/en/StructureDefinition-uz-core-practitionerrole.html)
@@ -15,7 +16,7 @@ Goal: Retrieve existing Practitioner and PractitionerRole records, integrate the
 
 ## uz-core-practitioner profile
 
-**Note**: Validation is currently disabled on the server, but client applications should follow the profile rules to ensure compatibility and data quality.
+**Note**: Validation is currently disabled on the server but is expected to be enabled for the connectathon. Client applications should follow the profile rules to ensure compatibility and data quality.
 
 ### Required elements
 
