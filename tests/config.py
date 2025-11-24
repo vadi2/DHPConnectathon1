@@ -12,6 +12,9 @@ CLEANUP_AFTER_TESTS = os.environ.get('CLEANUP_AFTER_TESTS', 'false').lower() == 
 # Verbose output
 VERBOSE = os.environ.get('VERBOSE', 'true').lower() == 'true'
 
+# Interactive mode - pause after each test for manual validation
+INTERACTIVE = os.environ.get('INTERACTIVE', 'false').lower() == 'true'
+
 # Timeout for requests in seconds
 REQUEST_TIMEOUT = int(os.environ.get('REQUEST_TIMEOUT', '30'))
 

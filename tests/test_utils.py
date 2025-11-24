@@ -3,8 +3,9 @@ Utility functions for FHIR API tests
 """
 import requests
 import json
+import sys
 from typing import Dict, Any, Optional, List
-from config import BASE_URL, REQUEST_TIMEOUT, VERBOSE
+from config import BASE_URL, REQUEST_TIMEOUT, VERBOSE, INTERACTIVE
 
 
 class Colors:
@@ -19,6 +20,18 @@ class Colors:
     MAGENTA = '\033[95m'
 
 
+def wait_for_user(prompt: str = "Press Enter to continue to next test..."):
+    """Pause execution and wait for user input if in interactive mode"""
+    if INTERACTIVE:
+        print(f"\n{Colors.BOLD}{Colors.CYAN}{prompt}{Colors.RESET}")
+        try:
+            input()
+        except KeyboardInterrupt:
+            print(f"\n\n{Colors.YELLOW}Test execution interrupted by user{Colors.RESET}")
+            sys.exit(0)
+        print()  # Add blank line after continuing
+
+
 class TestResults:
     """Track test results"""
     def __init__(self):
@@ -30,15 +43,18 @@ class TestResults:
     def add_pass(self, test_name: str):
         self.passed += 1
         print(f"{Colors.GREEN}✓{Colors.RESET} {test_name}")
+        wait_for_user()
 
     def add_fail(self, test_name: str, reason: str):
         self.failed += 1
         self.failures.append((test_name, reason))
         print(f"{Colors.RED}✗{Colors.RESET} {test_name}: {reason}")
+        wait_for_user()
 
     def add_skip(self, test_name: str, reason: str):
         self.skipped += 1
         print(f"{Colors.YELLOW}⊘{Colors.RESET} {test_name}: {reason}")
+        wait_for_user()
 
     def print_summary(self):
         print(f"\n{Colors.BOLD}Test Summary{Colors.RESET}")

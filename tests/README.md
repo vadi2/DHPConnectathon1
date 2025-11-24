@@ -37,6 +37,7 @@ The test suite can be configured using environment variables:
 | `FHIR_BASE_URL` | FHIR server base URL | `https://playground.dhp.uz/fhir` |
 | `CLEANUP_AFTER_TESTS` | Delete test resources after running | `false` |
 | `VERBOSE` | Show detailed request/response logs | `true` |
+| `INTERACTIVE` | Pause after each test for manual validation | `false` |
 | `REQUEST_TIMEOUT` | HTTP request timeout in seconds | `30` |
 | `TEST_IDENTIFIER_PREFIX` | Prefix for test identifiers | `test-` |
 
@@ -82,6 +83,22 @@ By default, test resources are NOT deleted. To enable cleanup:
 ```bash
 CLEANUP_AFTER_TESTS=true python run_all_tests.py
 ```
+
+### Interactive Mode
+
+To step through tests one at a time (pauses after each test):
+
+```bash
+INTERACTIVE=true python run_all_tests.py
+```
+
+This is useful for:
+- Manual validation of each test result
+- Debugging specific test failures
+- Understanding what each test does
+- Inspecting server responses carefully
+
+Press Enter to advance to the next test, or Ctrl+C to stop.
 
 ### Quiet Mode
 
