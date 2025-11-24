@@ -417,10 +417,10 @@ All supported search parameters can be found in the capability statement at [DHP
 | `phone` | token | Search by phone number | `?phone=%2B998901234567` |
 | `email` | token | Search by email | `?email=doctor@example.com` |
 | `address` | string | Search by address | `?address=Toshkent` |
-| `address-city` | string | Search by city | `?address-city=Toshkent` |
+| `address-city` | string | Search by city code | `?address-city=15010017` |
 | `address-country` | string | Search by country | `?address-country=UZ` |
 | `address-postalcode` | string | Search by postal code | `?address-postalcode=100084` |
-| `address-state` | string | Search by state/region | `?address-state=Toshkent` |
+| `address-state` | string | Search by state/region code | `?address-state=1501` |
 | `gender` | token | Search by gender | `?gender=male` |
 | `active` | token | Filter by status | `?active=true` |
 | `deceased` | token | Filter by deceased status | `?deceased=false` |
@@ -453,7 +453,7 @@ GET /Practitioner?name=Karimov
 
 **Find practitioners in a specific city:**
 ```
-GET /Practitioner?address-city=Toshkent&active=true
+GET /Practitioner?address-city=15010017&active=true
 ```
 
 **Find all roles for a specific practitioner:**
@@ -480,7 +480,7 @@ GET /PractitionerRole?specialty=https://terminology.dhp.uz/fhir/core/CodeSystem/
 
 Combining parameters (logical AND):
 ```
-GET /Practitioner?family=Karimov&address-city=Toshkent&active=true
+GET /Practitioner?family=Karimov&address-city=15010017&active=true
 ```
 
 Multiple values (logical OR):

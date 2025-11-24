@@ -254,10 +254,10 @@ All supported search parameters can be found in the capability statement at [DHP
 | `phone` | token | Search by phone number | `?phone=%2B998901234567` |
 | `email` | token | Search by email | `?email=patient@example.com` |
 | `address` | string | Search by address | `?address=Toshkent` |
-| `address-city` | string | Search by city | `?address-city=Toshkent` |
+| `address-city` | string | Search by city code | `?address-city=15010017` |
 | `address-country` | string | Search by country | `?address-country=UZ` |
 | `address-postalcode` | string | Search by postal code | `?address-postalcode=100084` |
-| `address-state` | string | Search by state/region | `?address-state=Toshkent` |
+| `address-state` | string | Search by state/region code | `?address-state=1501` |
 | `gender` | token | Search by gender | `?gender=male` |
 | `birthdate` | date | Search by birth date | `?birthdate=1985-05-15` |
 | `active` | token | Filter by status | `?active=true` |
@@ -289,7 +289,7 @@ GET /Patient?birthdate=1985-05-15
 
 **Find patients in a specific city:**
 ```
-GET /Patient?address-city=Toshkent&active=true
+GET /Patient?address-city=15010017&active=true
 ```
 
 **Combine multiple search criteria:**
@@ -301,7 +301,7 @@ GET /Patient?family=Karimov&birthdate=1985-05-15&gender=male
 
 Combining parameters (logical AND):
 ```
-GET /Patient?family=Karimov&address-city=Toshkent&active=true
+GET /Patient?family=Karimov&address-city=15010017&active=true
 ```
 
 Multiple values (logical OR):

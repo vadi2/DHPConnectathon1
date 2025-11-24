@@ -162,12 +162,12 @@ def run_patient_tests() -> TestResults:
     response = make_request('GET', '/Patient', params={'gender': 'male'})
     assert_status_code(response, 200, 'Search patient by gender', results)
 
-    # Test 8: Search by address city
+    # Test 8: Search by address city (using actual city code from sample data)
     response = make_request('GET', '/Patient', params={
-        'address-city': 'Toshkent',
+        'address-city': '15010017',
         'active': 'true'
     })
-    assert_status_code(response, 200, 'Search patient by city', results)
+    assert_status_code(response, 200, 'Search patient by city code', results)
 
     # Test 9: Combined demographics search with :contains modifier
     response = make_request('GET', '/Patient', params={
