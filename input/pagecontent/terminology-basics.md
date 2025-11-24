@@ -492,11 +492,6 @@ Every terminology resource has two version identifiers:
 
 ### Searching by version
 
-**Get all versions of a CodeSystem:**
-```
-GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&_sort=-version
-```
-
 **Get a specific version:**
 ```
 GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=1.0.0

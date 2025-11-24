@@ -492,11 +492,6 @@ GET /CodeSystem/$lookup?system=https://terminology.dhp.uz/fhir/core/CodeSystem/p
 
 ### Поиск по версии
 
-**Получить все версии CodeSystem:**
-```
-GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&_sort=-version
-```
-
 **Получить конкретную версию:**
 ```
 GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&version=1.0.0
