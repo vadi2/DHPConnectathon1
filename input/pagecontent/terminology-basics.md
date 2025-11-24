@@ -264,11 +264,6 @@ GET /CodeSystem?publisher=Health Level Seven
 GET /ValueSet?status=active
 ```
 
-**Find all versions of a specific CodeSystem:**
-```
-GET /CodeSystem?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs&_sort=-version
-```
-
 **Find ConceptMaps for ISO 3166 country codes:**
 ```
 GET /ConceptMap?source-scope-uri=urn:iso:std:iso:3166
