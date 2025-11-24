@@ -213,7 +213,6 @@ Response: HTTP 200 OK with a Bundle containing the ConceptMap resource showing t
 
 | Parameter | Type | Description | Example |
 |----------|-----|----------|--------|
-| `_id` | token | Search by ID | `?_id=position-and-profession-cs` |
 | `url` | uri | Search by canonical URL | `?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs` |
 | `name` | string | Search by name | `?name=position` |
 | `title` | string | Search by title | `?title=profession` |
@@ -227,7 +226,6 @@ Response: HTTP 200 OK with a Bundle containing the ConceptMap resource showing t
 
 | Parameter | Type | Description | Example |
 |----------|-----|----------|--------|
-| `_id` | token | Search by ID | `?_id=position-and-profession-vs` |
 | `url` | uri | Search by canonical URL | `?url=https://dhp.uz/fhir/core/ValueSet/position-and-profession-vs` |
 | `name` | string | Search by name | `?name=position` |
 | `title` | string | Search by title | `?title=profession` |
@@ -241,7 +239,6 @@ Response: HTTP 200 OK with a Bundle containing the ConceptMap resource showing t
 
 | Parameter | Type | Description | Example |
 |----------|-----|----------|--------|
-| `_id` | token | Search by ID | `?_id=iso-3166-alpha3-to-alpha2-cs` |
 | `url` | uri | Search by canonical URL | `?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alpha3-to-alpha2-cs` |
 | `name` | string | Search by name | `?name=iso` |
 | `status` | token | Filter by status | `?status=active` |

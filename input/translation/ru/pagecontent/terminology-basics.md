@@ -213,7 +213,6 @@ GET /ConceptMap?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alp
 
 | Параметр | Тип | Описание | Пример |
 |----------|-----|----------|--------|
-| `_id` | token | Поиск по ID | `?_id=position-and-profession-cs` |
 | `url` | uri | Поиск по каноническому URL | `?url=https://terminology.dhp.uz/fhir/core/CodeSystem/position-and-profession-cs` |
 | `name` | string | Поиск по имени | `?name=position` |
 | `title` | string | Поиск по заголовку | `?title=profession` |
@@ -227,7 +226,6 @@ GET /ConceptMap?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alp
 
 | Параметр | Тип | Описание | Пример |
 |----------|-----|----------|--------|
-| `_id` | token | Поиск по ID | `?_id=position-and-profession-vs` |
 | `url` | uri | Поиск по каноническому URL | `?url=https://dhp.uz/fhir/core/ValueSet/position-and-profession-vs` |
 | `name` | string | Поиск по имени | `?name=position` |
 | `title` | string | Поиск по заголовку | `?title=profession` |
@@ -241,7 +239,6 @@ GET /ConceptMap?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alp
 
 | Параметр | Тип | Описание | Пример |
 |----------|-----|----------|--------|
-| `_id` | token | Поиск по ID | `?_id=iso-3166-alpha3-to-alpha2-cs` |
 | `url` | uri | Поиск по каноническому URL | `?url=https://terminology.dhp.uz/fhir/core/ConceptMap/iso-3166-alpha3-to-alpha2-cs` |
 | `name` | string | Поиск по имени | `?name=iso` |
 | `status` | token | Фильтр по статусу | `?status=active` |
