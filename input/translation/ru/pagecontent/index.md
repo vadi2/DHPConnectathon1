@@ -36,6 +36,34 @@ FHIR (Fast Healthcare Interoperability Resources) - это международ�
 
 Мы подготовили подробные сценарии для каждой задачи интеграции. Выберите порядок, который лучше всего подходит для потребностей вашего приложения:
 
+```mermaid
+graph TB
+    subgraph MSM["Metadata and Security Management"]
+        Cap[Capability Discovery]
+        Term[Terminology Basics]
+    end
+
+    subgraph MDM["Master Data Management"]
+        Org[Organization]
+        Pat[Patient]
+        Prac[Practitioner /<br/>PractitionerRole]
+    end
+
+    Term -.-> MDM
+
+    Org --> Pat
+    Org --> Prac
+    Prac --> Pat
+
+    style MSM fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style MDM fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style Cap fill:#bbdefb,stroke:#1976d2
+    style Term fill:#bbdefb,stroke:#1976d2
+    style Org fill:#ffe0b2,stroke:#f57c00
+    style Pat fill:#ffe0b2,stroke:#f57c00
+    style Prac fill:#ffe0b2,stroke:#f57c00
+```
+
 #### [Регистрация пациентов](patient-registration.html)
 Обработка записей пациентов с правильными идентификаторами (ПИНФЛ), обнаружение дубликатов и логика сопоставления.
 

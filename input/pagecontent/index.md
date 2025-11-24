@@ -36,6 +36,34 @@ This connectathon will help you:
 
 We've prepared detailed scenarios to guide you through each integration task. Choose the order that best fits your application's needs:
 
+```mermaid
+graph TB
+    subgraph MSM["Metadata and Security Management"]
+        Cap[Capability Discovery]
+        Term[Terminology Basics]
+    end
+
+    subgraph MDM["Master Data Management"]
+        Org[Organization]
+        Pat[Patient]
+        Prac[Practitioner /<br/>PractitionerRole]
+    end
+
+    Term -.-> MDM
+
+    Org --> Pat
+    Org --> Prac
+    Prac --> Pat
+
+    style MSM fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style MDM fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style Cap fill:#bbdefb,stroke:#1976d2
+    style Term fill:#bbdefb,stroke:#1976d2
+    style Org fill:#ffe0b2,stroke:#f57c00
+    style Pat fill:#ffe0b2,stroke:#f57c00
+    style Prac fill:#ffe0b2,stroke:#f57c00
+```
+
 #### [Patient Registration](patient-registration.html)
 Handle patient records with proper identifiers (PINFL), duplicate detection, and matching logic.
 
