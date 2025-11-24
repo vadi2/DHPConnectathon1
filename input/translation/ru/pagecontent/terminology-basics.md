@@ -639,13 +639,9 @@ Content-Type: application/fhir+json
 
 **Шаг 1: Найти соответствующий ValueSet**
 
-Сначала определите, какой ValueSet определяет допустимые профессии:
+Сначала определите, какой ValueSet определяет допустимые профессии, просмотрев [страницу артефактов терминологии uz-core](https://dhp.uz/fhir/core/en/artifacts.html#4).
 
-```
-GET /ValueSet?name=position-and-profession
-```
-
-Из результатов получаем URL ValueSet: `https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs`
+Со страницы артефактов получаем URL ValueSet: `https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs`
 
 **Шаг 2: Расширить ValueSet для заполнения выпадающего списка**
 

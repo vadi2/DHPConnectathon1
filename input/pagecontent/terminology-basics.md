@@ -639,13 +639,9 @@ Let's walk through a complete scenario: building a practitioner registration for
 
 **Step 1: Find the relevant ValueSet**
 
-First, identify which ValueSet defines allowed professions:
+First, identify which ValueSet defines allowed professions by browsing the [uz-core terminology artifacts page](https://dhp.uz/fhir/core/en/artifacts.html#4).
 
-```
-GET /ValueSet?name=position-and-profession
-```
-
-From the results, we get the ValueSet URL: `https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs`
+From the artifacts page, we find the ValueSet URL: `https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs`
 
 **Step 2: Expand the ValueSet to populate the dropdown**
 
