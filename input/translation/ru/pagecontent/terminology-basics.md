@@ -401,7 +401,7 @@ GET /ValueSet/$validate-code?url=https://terminology.dhp.uz/fhir/core/ValueSet/p
     },
     {
       "name": "message",
-      "valueString": "Code 'INVALID' not found in system"
+      "valueString": "Code 'INVALID' not found in ValueSet"
     }
   ]
 }
