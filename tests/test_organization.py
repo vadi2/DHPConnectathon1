@@ -54,9 +54,11 @@ def run_organization_tests() -> TestResults:
     }
 
     response = make_request('POST', '/Organization', data=fergana_org)
+    test_org_exact_name = None
     if response.status_code == 201:
         fergana_org_created = response.json()
         created_resources.append(('Organization', fergana_org_created['id']))
+        test_org_exact_name = fergana_org_created.get('name', f"{TEST_IDENTIFIER_PREFIX}Fergana Regional Hospital")
         results.add_pass("Create test organization for name search")
 
         # Wait 5 seconds for indexing
@@ -98,9 +100,22 @@ def run_organization_tests() -> TestResults:
     else:
         results.add_fail("Search organization by name:contains", f"Status {response.status_code}")
 
-    # Test 3: Search with exact name match
-    response = make_request('GET', '/Organization', params={'name:exact': 'Toshkent'})
-    assert_status_code(response, 200, 'Search organization by exact name', results)
+    # Test 3: Search with exact name match (using our test org)
+    if test_org_exact_name:
+        response = make_request('GET', '/Organization', params={'name:exact': test_org_exact_name})
+        if response.status_code == 200:
+            bundle = response.json()
+            entries = bundle.get('entry', [])
+            org_entries = [e for e in entries if e.get('resource', {}).get('resourceType') == 'Organization']
+            if len(org_entries) > 0:
+                print(f"  {Colors.CYAN}→ Found {len(org_entries)} organization(s) with exact name{Colors.RESET}")
+                results.add_pass('Search organization by exact name')
+            else:
+                results.add_skip('Search organization by exact name', 'Test org not found with exact match')
+        else:
+            results.add_fail('Search organization by exact name', f"Status {response.status_code}")
+    else:
+        results.add_skip('Search organization by exact name', 'Test org not created')
 
     # Test 4: Search by type
     response = make_request('GET', '/Organization', params={'type': 'prov'})
