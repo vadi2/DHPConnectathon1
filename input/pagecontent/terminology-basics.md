@@ -325,21 +325,14 @@ Response:
 }
 ```
 
-**Example 2: Expansion with filter**
-```
-GET /ValueSet/$expand?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&filter=general
-```
-
-This returns only codes where the display name contains "general".
-
-**Example 3: Expansion with count limit**
+**Example 2: Expansion with count limit**
 ```
 GET /ValueSet/$expand?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&count=10
 ```
 
 This returns only the first 10 codes.
 
-**Example 4: Expansion by ID**
+**Example 3: Expansion by ID**
 ```
 GET /ValueSet/position-and-profession-vs/$expand
 ```

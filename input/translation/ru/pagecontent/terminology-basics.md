@@ -325,21 +325,14 @@ GET /ValueSet/$expand?url=https://terminology.dhp.uz/fhir/core/ValueSet/position
 }
 ```
 
-**Пример 2: Расширение с фильтром**
-```
-GET /ValueSet/$expand?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&filter=general
-```
-
-Это возвращает только коды, где отображаемое имя содержит "general".
-
-**Пример 3: Расширение с ограничением количества**
+**Пример 2: Расширение с ограничением количества**
 ```
 GET /ValueSet/$expand?url=https://terminology.dhp.uz/fhir/core/ValueSet/position-and-profession-vs&count=10
 ```
 
 Это возвращает только первые 10 кодов.
 
-**Пример 4: Расширение по ID**
+**Пример 3: Расширение по ID**
 ```
 GET /ValueSet/position-and-profession-vs/$expand
 ```
