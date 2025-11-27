@@ -183,9 +183,10 @@ curl "https://playground.dhp.uz/fhir/Patient?_count=5" \
 </code></pre>
     </div>
     <div class="tab-pane" id="python">
-<pre><code class="language-python"># pip install requests-oauthlib
+<pre><code class="language-python"># pip install requests-oauthlib fhir.resources
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
+from fhir.resources.bundle import Bundle
 
 SSO_URL = "https://sso.dhp.uz"
 FHIR_URL = "https://playground.dhp.uz/fhir"
@@ -203,97 +204,61 @@ oauth.fetch_token(
     client_secret=CLIENT_SECRET
 )
 
-# Выполнение аутентифицированного запроса - токен добавляется автоматически
+# Выполнение аутентифицированного запроса
 response = oauth.get(f"{FHIR_URL}/Patient", params={"_count": 5})
 response.raise_for_status()
-patients = response.json()
 
-print(f"Найдено {patients.get('total', 0)} пациентов")
+# Разбор ответа с помощью fhir.resources
+bundle = Bundle.model_validate(response.json())
 
-for entry in patients.get("entry", []):
-    patient = entry["resource"]
-    name = patient.get("name", [{}])[0]
-    print(f"  - {name.get('family', 'Неизвестно')}, {name.get('given', ['Неизвестно'])[0]}")
+print(f"Найдено {bundle.total or 0} пациентов")
+
+for entry in bundle.entry or []:
+    patient = entry.resource
+    family = patient.name[0].family if patient.name else "Неизвестно"
+    print(f"  - {family}")
 </code></pre>
     </div>
     <div class="tab-pane" id="javascript">
-<pre><code class="language-javascript">class DHPClient {
-  constructor(clientId, clientSecret) {
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
-    this.ssoUrl = 'https://sso.dhp.uz';
-    this.fhirUrl = 'https://playground.dhp.uz/fhir';
-    this.accessToken = null;
-    this.tokenExpiresAt = null;
+<pre><code class="language-javascript">// npm install simple-oauth2
+const { ClientCredentials } = require('simple-oauth2');
+
+const SSO_URL = 'https://sso.dhp.uz';
+const FHIR_URL = 'https://playground.dhp.uz/fhir';
+
+// Настройка OAuth2 клиента
+const oauth2 = new ClientCredentials({
+  client: {
+    id: 'your_client_id',
+    secret: 'your_client_secret'
+  },
+  auth: {
+    tokenHost: SSO_URL,
+    tokenPath: '/oauth/token'
   }
+});
 
-  async getAccessToken() {
-    // Вернуть кэшированный токен, если он ещё действителен
-    if (this.accessToken && this.tokenExpiresAt) {
-      if (Date.now() < this.tokenExpiresAt - 60000) {
-        return this.accessToken;
-      }
-    }
-
-    const response = await fetch(`${this.ssoUrl}/oauth/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        grant_type: 'client_credentials',
-        client_id: this.clientId,
-        client_secret: this.clientSecret
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error(`Ошибка аутентификации: ${response.status}`);
-    }
-
-    const tokenData = await response.json();
-    this.accessToken = tokenData.access_token;
-    const expiresIn = tokenData.expires_in || 3600;
-    this.tokenExpiresAt = Date.now() + (expiresIn * 1000);
-
-    return this.accessToken;
-  }
-
-  async request(method, endpoint, options = {}) {
-    const token = await this.getAccessToken();
-
-    const url = `${this.fhirUrl}/${endpoint}`;
-    const response = await fetch(url, {
-      method,
-      ...options,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/fhir+json',
-        ...options.headers
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Ошибка API запроса: ${response.status}`);
-    }
-
-    return await response.json();
-  }
-}
-
-// Пример использования
 (async () => {
-  const client = new DHPClient('your_client_id', 'your_client_secret');
-
   try {
-    // Поиск пациентов
-    const patients = await client.request('GET', 'Patient?_count=5');
+    // Получение токена доступа
+    const tokenResult = await oauth2.getToken({});
+    const accessToken = tokenResult.token.access_token;
+
+    // Выполнение аутентифицированного запроса
+    const response = await fetch(`${FHIR_URL}/Patient?_count=5`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Accept': 'application/fhir+json'
+      }
+    });
+
+    const patients = await response.json();
     console.log(`Найдено ${patients.total || 0} пациентов`);
 
     for (const entry of patients.entry || []) {
       const patient = entry.resource;
       const name = patient.name?.[0] || {};
-      console.log(`  - ${name.family || 'Неизвестно'}, ${name.given?.[0] || 'Неизвестно'}`);
+      console.log(`  - ${name.family || 'Неизвестно'}`);
     }
   } catch (error) {
     console.error('Ошибка:', error.message);
@@ -302,23 +267,20 @@ for entry in patients.get("entry", []):
 </code></pre>
     </div>
     <div class="tab-pane" id="java">
-<pre><code class="language-java">// Добавить в pom.xml: com.github.scribejava:scribejava-apis:8.3.3
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+<pre><code class="language-java">// pom.xml: ca.uhn.hapi.fhir:hapi-fhir-client:7.0.0, com.github.scribejava:scribejava-core:8.3.3
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.client.interceptor.BearerTokenAuthInterceptor;
+import org.hl7.fhir.r5.model.Bundle;
+import org.hl7.fhir.r5.model.Patient;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class DHPExample {
     static final String SSO_URL = "https://sso.dhp.uz";
     static final String FHIR_URL = "https://playground.dhp.uz/fhir";
 
-    // Определение OAuth2 API для DHP
     static class DHPApi extends DefaultApi20 {
         @Override
         public String getAccessTokenEndpoint() {
@@ -332,65 +294,50 @@ public class DHPExample {
     }
 
     public static void main(String[] args) throws Exception {
-        // Создание OAuth2 сервиса
-        OAuth20Service service = new ServiceBuilder("your_client_id")
+        // Получение OAuth2 токена
+        OAuth20Service oauth = new ServiceBuilder("your_client_id")
             .apiSecret("your_client_secret")
             .build(new DHPApi());
+        String accessToken = oauth.getAccessTokenClientCredentialsGrant().getAccessToken();
 
-        // Получение токена доступа через client credentials
-        OAuth2AccessToken token = service.getAccessTokenClientCredentialsGrant();
+        // Создание HAPI FHIR клиента с bearer-токеном
+        FhirContext ctx = FhirContext.forR5();
+        IGenericClient client = ctx.newRestfulGenericClient(FHIR_URL);
+        client.registerInterceptor(new BearerTokenAuthInterceptor(accessToken));
 
-        // Выполнение аутентифицированного запроса
-        HttpClient httpClient = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(FHIR_URL + "/Patient?_count=5"))
-            .header("Authorization", "Bearer " + token.getAccessToken())
-            .header("Accept", "application/fhir+json")
-            .GET()
-            .build();
+        // Поиск пациентов с использованием HAPI FHIR
+        Bundle results = client.search()
+            .forResource(Patient.class)
+            .count(5)
+            .returnBundle(Bundle.class)
+            .execute();
 
-        HttpResponse&lt;String&gt; response = httpClient.send(
-            request, HttpResponse.BodyHandlers.ofString()
-        );
+        System.out.println("Найдено " + results.getTotal() + " пациентов");
 
-        JsonObject patients = JsonParser.parseString(response.body()).getAsJsonObject();
-
-        int total = patients.has("total") ? patients.get("total").getAsInt() : 0;
-        System.out.println("Найдено " + total + " пациентов");
-
-        if (patients.has("entry")) {
-            for (var entry : patients.getAsJsonArray("entry")) {
-                JsonObject patient = entry.getAsJsonObject()
-                    .getAsJsonObject("resource");
-                if (patient.has("name")) {
-                    JsonObject name = patient.getAsJsonArray("name")
-                        .get(0).getAsJsonObject();
-                    String family = name.has("family")
-                        ? name.get("family").getAsString()
-                        : "Неизвестно";
-                    System.out.println("  - " + family);
-                }
-            }
+        for (Bundle.BundleEntryComponent entry : results.getEntry()) {
+            Patient patient = (Patient) entry.getResource();
+            String family = patient.hasName()
+                ? patient.getNameFirstRep().getFamily()
+                : "Неизвестно";
+            System.out.println("  - " + family);
         }
     }
 }
 </code></pre>
     </div>
     <div class="tab-pane" id="csharp">
-<pre><code class="language-csharp">// Установка: dotnet add package IdentityModel
-using System;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
+<pre><code class="language-csharp">// dotnet add package Hl7.Fhir.R5
+// dotnet add package IdentityModel
+using Hl7.Fhir.Model;
+using Hl7.Fhir.Rest;
 using IdentityModel.Client;
 
 const string ssoUrl = "https://sso.dhp.uz";
 const string fhirUrl = "https://playground.dhp.uz/fhir";
 
-var client = new HttpClient();
-
-// Получение токена доступа
-var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+// Получение OAuth2 токена
+var httpClient = new HttpClient();
+var tokenResponse = await httpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
 {
     Address = $"{ssoUrl}/oauth/token",
     ClientId = "your_client_id",
@@ -403,33 +350,21 @@ if (tokenResponse.IsError)
     return;
 }
 
-// Установка bearer-токена для последующих запросов
-client.SetBearerToken(tokenResponse.AccessToken);
+// Создание Firely FHIR клиента с bearer-токеном
+var settings = new FhirClientSettings { PreferredFormat = ResourceFormat.Json };
+var client = new FhirClient(fhirUrl, settings);
+client.RequestHeaders.Add("Authorization", $"Bearer {tokenResponse.AccessToken}");
 
-// Выполнение аутентифицированного запроса
-var response = await client.GetAsync($"{fhirUrl}/Patient?_count=5");
-response.EnsureSuccessStatusCode();
+// Поиск пациентов с использованием Firely SDK
+var results = await client.SearchAsync&lt;Patient&gt;(new[] { "_count=5" });
 
-var json = await response.Content.ReadAsStringAsync();
-var root = JsonDocument.Parse(json).RootElement;
+Console.WriteLine($"Найдено {results.Total} пациентов");
 
-var total = root.TryGetProperty("total", out var t) ? t.GetInt32() : 0;
-Console.WriteLine($"Найдено {total} пациентов");
-
-if (root.TryGetProperty("entry", out var entries))
+foreach (var entry in results.Entry)
 {
-    foreach (var entry in entries.EnumerateArray())
-    {
-        var patient = entry.GetProperty("resource");
-        if (patient.TryGetProperty("name", out var names))
-        {
-            var name = names[0];
-            var family = name.TryGetProperty("family", out var f)
-                ? f.GetString()
-                : "Неизвестно";
-            Console.WriteLine($"  - {family}");
-        }
-    }
+    var patient = (Patient)entry.Resource;
+    var family = patient.Name.FirstOrDefault()?.Family ?? "Неизвестно";
+    Console.WriteLine($"  - {family}");
 }
 </code></pre>
     </div>
