@@ -7,6 +7,9 @@ Goal: Learn how to retrieve and use the CapabilityStatement to understand what r
 - Resources: CapabilityStatement
 - Skills: GET requests, JSON navigation
 - Base URL: `https://playground.dhp.uz/fhir`
+- **Reserve URLs** (use if primary is unavailable):
+  - FHIR server: `https://catalina-noncontemplative-reanna.ngrok-free.dev/fhir/`
+  - SSO: `https://catalina-noncontemplative-reanna.ngrok-free.dev/sso/`
 - Useful links:
   - [FHIR CapabilityStatement](http://hl7.org/fhir/R5/capabilitystatement.html)
   - [DHPCapabilityStatement](https://dhp.uz/fhir/core/en/CapabilityStatement-DHPCapabilityStatement.html)

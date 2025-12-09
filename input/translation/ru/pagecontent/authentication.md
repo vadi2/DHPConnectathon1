@@ -7,6 +7,9 @@
 - Навыки: OAuth 2.0, HTTP POST запросы, управление токенами
 - URL SSO: `https://playground.dhp.uz/sso/api`
 - Базовый URL: `https://playground.dhp.uz/fhir`
+- **Резервные URL** (используйте, если основной недоступен):
+  - FHIR сервер: `https://catalina-noncontemplative-reanna.ngrok-free.dev/fhir/`
+  - SSO: `https://catalina-noncontemplative-reanna.ngrok-free.dev/sso/`
 - Полезные ссылки:
   - [Документация DHP SSO](https://wiki.dhp.uz/s/integration/doc/sso-ghGrj2qWmr)
   - [OAuth 2.0 Client Credentials](https://oauth.net/2/grant-types/client-credentials/)

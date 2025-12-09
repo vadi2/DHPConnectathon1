@@ -21,6 +21,10 @@ FHIR (Fast Healthcare Interoperability Resources) - это международ�
 
 Базовый URL для тестирования: `https://playground.dhp.uz/fhir`
 
+**Резервные URL** (используйте, если основной недоступен):
+- FHIR сервер: `https://catalina-noncontemplative-reanna.ngrok-free.dev/fhir/`
+- SSO: `https://catalina-noncontemplative-reanna.ngrok-free.dev/sso/`
+
 ### Чему вы научитесь
 
 Этот коннектафон поможет вам:

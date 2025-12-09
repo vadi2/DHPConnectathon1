@@ -21,6 +21,10 @@ Key concepts:
 
 Base URL for testing: `https://playground.dhp.uz/fhir`
 
+**Reserve URLs** (use if primary is unavailable):
+- FHIR server: `https://catalina-noncontemplative-reanna.ngrok-free.dev/fhir/`
+- SSO: `https://catalina-noncontemplative-reanna.ngrok-free.dev/sso/`
+
 ### What you'll learn
 
 This connectathon will help you:

@@ -7,6 +7,9 @@ Goal: Retrieve existing Practitioner and PractitionerRole records, integrate the
 - Resources: Practitioner, PractitionerRole
 - Skills: GET/POST/PUT/DELETE operations, search, references, identifiers
 - Base URL: `https://playground.dhp.uz/fhir`
+- **Reserve URLs** (use if primary is unavailable):
+  - FHIR server: `https://catalina-noncontemplative-reanna.ngrok-free.dev/fhir/`
+  - SSO: `https://catalina-noncontemplative-reanna.ngrok-free.dev/sso/`
 - Profiles:
   - [uz-core-practitioner](https://dhp.uz/fhir/core/en/StructureDefinition-uz-core-practitioner.html)
   - [uz-core-practitionerrole](https://dhp.uz/fhir/core/en/StructureDefinition-uz-core-practitionerrole.html)

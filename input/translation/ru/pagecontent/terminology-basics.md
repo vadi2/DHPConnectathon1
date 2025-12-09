@@ -7,6 +7,9 @@
 - Ресурсы: CodeSystem, ValueSet, ConceptMap
 - Навыки: Параметры поиска, фильтрация, операции терминологии ($expand, $validate-code, $lookup), управление версиями
 - Базовый URL: `https://playground.dhp.uz/fhir`
+- **Резервные URL** (используйте, если основной недоступен):
+  - FHIR сервер: `https://catalina-noncontemplative-reanna.ngrok-free.dev/fhir/`
+  - SSO: `https://catalina-noncontemplative-reanna.ngrok-free.dev/sso/`
 - Полезные ссылки:
   - [FHIR Terminology Service](http://hl7.org/fhir/R5/terminology-service.html)
   - [uz-core Артефакты](https://dhp.uz/fhir/core/en/artifacts.html)

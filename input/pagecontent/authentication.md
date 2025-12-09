@@ -7,6 +7,9 @@ Goal: Learn how to authenticate your application with the DHP platform using OAu
 - Skills: OAuth 2.0, HTTP POST requests, token management
 - SSO URL: `https://playground.dhp.uz/sso/api`
 - Base URL: `https://playground.dhp.uz/fhir`
+- **Reserve URLs** (use if primary is unavailable):
+  - FHIR server: `https://catalina-noncontemplative-reanna.ngrok-free.dev/fhir/`
+  - SSO: `https://catalina-noncontemplative-reanna.ngrok-free.dev/sso/`
 - Useful links:
   - [DHP SSO Documentation](https://wiki.dhp.uz/s/integration/doc/sso-ghGrj2qWmr)
   - [OAuth 2.0 Client Credentials](https://oauth.net/2/grant-types/client-credentials/)
